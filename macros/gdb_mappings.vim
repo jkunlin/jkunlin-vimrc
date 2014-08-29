@@ -46,6 +46,7 @@ function! s:Toggle()
 	endif
 	call gdb("file " . g:vimgdb_debug_file)
 	:bel 30vsplit gdb-variables
+	:bel <Esc><Esc><C-W>h
 	" add end
 	map <Space> :call gdb("")<CR>
 	nmap <silent> <C-Z> :call gdb("\032")<CR>

@@ -30,6 +30,9 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
+Plugin 'mileszs/ack.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'spf13/vim-autoclose'
 "Plugin 'Lokaltog/vim-powerline'
 
 " All of your Plugins must be added before the following line
@@ -76,19 +79,19 @@ set ignorecase
 set hlsearch
 set incsearch
 set smartindent
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap {<CR> {<CR>}<ESC>O
-:inoremap } <c-r>=ClosePair('}')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-function! ClosePair(char)
-    if getline('.')[col('.') - 1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
-endfunction
+"":inoremap ( ()<ESC>i
+"":inoremap ) <c-r>=ClosePair(')')<CR>
+"":inoremap {<CR> {<CR>}<ESC>O
+"":inoremap } <c-r>=ClosePair('}')<CR>
+"":inoremap [ []<ESC>i
+"":inoremap ] <c-r>=ClosePair(']')<CR>
+""function! ClosePair(char)
+""    if getline('.')[col('.') - 1] == a:char
+""        return "\<Right>"
+""    else
+""        return a:char
+""    endif
+""endfunction
 filetype plugin indent on 
 set completeopt=longest,menu
 
@@ -104,4 +107,6 @@ map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
-map <silent> <c-t> :NERDTreeToggle<CR>
+map <silent> <F2> :NERDTreeToggle<CR>
+map <c-t> :tabe 
+map <silent> <Tab> gt
