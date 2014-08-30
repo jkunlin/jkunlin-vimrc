@@ -33,10 +33,11 @@ Plugin 'bling/vim-airline'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'spf13/vim-autoclose'
-Plugin 'godlygeek/tabular' " align
+" Plugin 'godlygeek/tabular' " align
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
+Plugin 'itchyny/calendar.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -108,7 +109,9 @@ map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
+" NERD
 map <silent> <F2> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 nmap <c-t> :browse tabnew<CR>M 
 imap <c-t> <Esc>:browse tabnew<CR>M
 
