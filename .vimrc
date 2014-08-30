@@ -33,7 +33,10 @@ Plugin 'bling/vim-airline'
 Plugin 'mileszs/ack.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'spf13/vim-autoclose'
-"Plugin 'Lokaltog/vim-powerline'
+Plugin 'godlygeek/tabular' " align
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tomasr/molokai'
+Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -49,9 +52,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
-
-filetype plugin on
 
 set nu
 syntax enable
@@ -92,9 +92,9 @@ set smartindent
 ""        return a:char
 ""    endif
 ""endfunction
-filetype plugin indent on 
 set completeopt=longest,menu
 
+" vimgdb
 let g:vimgdb_debug_file = ""
 source ~/.vim/macros/gdb_mappings.vim
 "map <F8> :bel 30vsplit gdb-variables<CR><c-w>h
@@ -102,11 +102,23 @@ source ~/.vim/macros/gdb_mappings.vim
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 nnoremap <leader>d :YcmCompleter GoTo<CR>
 
+" cvim
 map <silent> <F10> <Esc>:cprevious<CR>
 map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
 map <silent> <F2> :NERDTreeToggle<CR>
-map <c-t> :tabe 
-map <silent> <Tab> gt
+nmap <c-t> :browse tabnew<CR>M 
+imap <c-t> <Esc>:browse tabnew<CR>M
+
+"easy-motion
+map <Leader> <Plug>(easymotion-prefix)
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
+
+" airline
+set t_Co=256
