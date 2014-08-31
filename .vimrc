@@ -30,14 +30,15 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'bling/vim-airline'
-Plugin 'mileszs/ack.vim'
+Plugin 'mileszs/ack.vim' "need ack installed
 Plugin 'kien/ctrlp.vim'
 Plugin 'spf13/vim-autoclose'
-" Plugin 'godlygeek/tabular' " align
+Plugin 'godlygeek/tabular'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'itchyny/calendar.vim'
+Plugin 'majutsushi/tagbar' "need exuberant ctag installed"
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -95,6 +96,12 @@ set smartindent
 ""endfunction
 set completeopt=longest,menu
 
+" switch between windows
+nmap <silent> <c-h> <c-w>h
+nmap <silent> <c-j> <c-w>j
+nmap <silent> <c-k> <c-w>k
+nmap <silent> <c-l> <c-w>l
+
 " vimgdb
 let g:vimgdb_debug_file = ""
 source ~/.vim/macros/gdb_mappings.vim
@@ -103,7 +110,7 @@ source ~/.vim/macros/gdb_mappings.vim
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 nnoremap <leader>d :YcmCompleter GoTo<CR>
 
-" cvim
+" cvim, the first twoo also for Ack
 map <silent> <F10> <Esc>:cprevious<CR>
 map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
@@ -125,3 +132,6 @@ let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 
 " airline
 set t_Co=256
+
+" tagbar
+map <silent> <F3> :TagbarToggle<CR>
