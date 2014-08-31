@@ -132,6 +132,8 @@ let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 
 " airline
 set t_Co=256
+set laststatus=2 "show status line even when only single window is opened
+let g:airline_detect_whitespace = 0
 
 " tagbar
 map <silent> <F3> :TagbarToggle<CR>
