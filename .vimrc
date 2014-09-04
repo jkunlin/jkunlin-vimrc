@@ -38,6 +38,7 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'itchyny/calendar.vim'
+" Plugin 'mattn/calendar-vim'
 Plugin 'majutsushi/tagbar' "need exuberant ctag installed"
 
 " All of your Plugins must be added before the following line
@@ -95,6 +96,8 @@ set smartindent
 ""    endif
 ""endfunction
 set completeopt=longest,menu
+set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 
 " switch between windows
 nmap <silent> <c-h> <c-w>h
@@ -124,10 +127,10 @@ imap <c-t> <Esc>:browse tabnew<CR>M
 
 "easy-motion
 map <Leader> <Plug>(easymotion-prefix)
-map <Leader>l <Plug>(easymotion-lineforward)
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
-map <Leader>h <Plug>(easymotion-linebackward)
+map <silent> <Leader>l <Plug>(easymotion-lineforward)
+map <silent> <Leader>j <Plug>(easymotion-j)
+map <silent> <Leader>k <Plug>(easymotion-k)
+map <silent> <Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 
 " airline
@@ -137,3 +140,7 @@ let g:airline_detect_whitespace = 0
 
 " tagbar
 map <silent> <F3> :TagbarToggle<CR>
+
+" calendar
+let g:calendar_google_calendar = 3
+let g:calendar_google_task = 3
