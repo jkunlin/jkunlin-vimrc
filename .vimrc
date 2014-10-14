@@ -39,7 +39,9 @@ Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
 Plugin 'itchyny/calendar.vim'
 " Plugin 'mattn/calendar-vim'
-Plugin 'majutsushi/tagbar' "need exuberant ctag installed"
+Plugin 'majutsushi/tagbar' "need exuberant ctag installed
+Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -64,7 +66,6 @@ else
     set background=dark
 endif
 "colorscheme solarized
-set cindent
 syntax enable
 if has('gui_running')
 	set guifont=Courier_New:h10:cANSI
@@ -82,6 +83,10 @@ set ignorecase
 set hlsearch
 set incsearch
 set smartindent
+set showcmd
+if has("autocmd")
+	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
 "":inoremap ( ()<ESC>i
 "":inoremap ) <c-r>=ClosePair(')')<CR>
 "":inoremap {<CR> {<CR>}<ESC>O
@@ -95,10 +100,15 @@ set smartindent
 ""        return a:char
 ""    endif
 ""endfunction
-set completeopt=longest,menu
-set cursorline
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 
+set completeopt=longest,menu
+" Treat long lines as break lines
+map j gj
+map k gk
+" Disable highlight when <leader><CR>
+map <silent> <leader><CR> :noh<CR>
+set cursorline
+" hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nmap <silent> <c-h> <c-w>h
 nmap <silent> <c-j> <c-w>j
@@ -110,8 +120,9 @@ let g:vimgdb_debug_file = ""
 source ~/.vim/macros/gdb_mappings.vim
 "map <F8> :bel 30vsplit gdb-variables<CR><c-w>h
 
+" YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-nnoremap <leader>d :YcmCompleter GoTo<CR>
+nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " cvim, the first twoo also for Ack
 map <silent> <F10> <Esc>:cprevious<CR>
