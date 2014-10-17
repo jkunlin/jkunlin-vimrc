@@ -41,7 +41,8 @@ Plugin 'itchyny/calendar.vim'
 " Plugin 'mattn/calendar-vim'
 Plugin 'majutsushi/tagbar' "need exuberant ctag installed
 Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
-
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -84,7 +85,7 @@ set hlsearch
 set incsearch
 set smartindent
 set showcmd
-if has("autocmd")
+if has("autocmd")  "Jump to the last edited line
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
 "":inoremap ( ()<ESC>i
@@ -123,6 +124,32 @@ source ~/.vim/macros/gdb_mappings.vim
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" ultisnip
+" default <tab> <c-j> <c-k>
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<Enter>"
+let g:UltiSnipsJumpForwardTrigger="<Enter>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>" "it is <c-enter> actually
+""" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+function! g:UltiSnips_Complete()
+	call UltiSnips#ExpandSnippet()
+	if g:ulti_expand_res == 0
+		call UltiSnips#JumpForwards()
+		if g:ulti_jump_forwards_res == 0
+			return "\<enter>"
+		endif
+	endif
+	return ""
+endfunction
+autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item 
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " cvim, the first twoo also for Ack
 map <silent> <F10> <Esc>:cprevious<CR>
