@@ -84,6 +84,7 @@ set ignorecase
 set hlsearch
 set incsearch
 set smartindent
+set backspace=indent,eol,start
 set showcmd
 if has("autocmd")  "Jump to the last edited line
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -123,7 +124,13 @@ source ~/.vim/macros/gdb_mappings.vim
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+""let g:ycm_add_preview_to_completeopt = 1
+""let g:ycm_autoclose_preview_window_after_completion = 1
+""let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ultisnip
 " default <tab> <c-j> <c-k>
@@ -144,7 +151,7 @@ function! g:UltiSnips_Complete()
 	endif
 	return ""
 endfunction
-autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+autocmd Bufenter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 let g:UltiSnipsListSnippets="<c-e>"
 " this mapping Enter key to <C-y> to chose the current highlight item 
 " and close the selection list, same as other IDEs.
