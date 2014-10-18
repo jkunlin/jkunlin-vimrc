@@ -5,7 +5,7 @@ snippet beginend "$1.begin(), $1.end() (beginend)"
 ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
-snippet cl "class .. (class)"
+snippet class "class .. (class)"
 class ${1:`!p snip.rv = snip.basename or "name"`} {
 public:
 	${1/(\w+).*/$1/} (${2:arguments});
@@ -33,11 +33,18 @@ if (FILE *fp = fopen(${1:"filename"}, "r")) {
 endsnippet
 
 snippet map "std::map (map)"
-std::map<${1:key}, ${2:value}> ${0:map};
+std::map<${1:key}, ${2:value}> ${3:map};
+$0
 endsnippet
 
-snippet vector "std::vector (v)"
-std::vector<${1:char}> ${0:v};
+snippet vector "std::vector (vec)"
+std::vector<${1:char}> ${2:vec};
+$0
+endsnippet
+
+snippet set "std::set (set)"
+std::set<${1:char}> ${2:set};
+$0
 endsnippet
 
 snippet tp "template <typename ..> (template)"
