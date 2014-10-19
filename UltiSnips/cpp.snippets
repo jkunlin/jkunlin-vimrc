@@ -5,20 +5,20 @@ snippet beginend "$1.begin(), $1.end() (beginend)"
 ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
 endsnippet
 
-snippet class "class .. (class)"
+snippet cl "class .. (class)"
 class ${1:`!p snip.rv = snip.basename or "name"`} {
 public:
-	${1/(\w+).*/$1/} (${2:arguments});
+	${1/(\w+).*/$1/} (${2});
 	virtual ~${1/(\w+).*/$1/} ();
 
 private:
-	${0:/* data */}
+	${3:/* data */}
 };
 endsnippet
 
 snippet ns "namespace .. (namespace)"
 namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`} {
-	$0
+	$2
 }${1/.+/ \/* /m}$1${1/.+/ *\/ /m}
 endsnippet
 
@@ -34,21 +34,22 @@ endsnippet
 
 snippet map "std::map (map)"
 std::map<${1:key}, ${2:value}> ${3:map};
-$0
+$4
 endsnippet
 
 snippet vector "std::vector (vec)"
 std::vector<${1:char}> ${2:vec};
-$0
+$3
 endsnippet
 
 snippet set "std::set (set)"
 std::set<${1:char}> ${2:set};
-$0
+$3
 endsnippet
 
 snippet tp "template <typename ..> (template)"
 template <typename ${1:_InputIter}>
+$2
 endsnippet
 
 # vim:ft=snippets:

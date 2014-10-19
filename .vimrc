@@ -130,28 +130,33 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
-nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader><leader> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ultisnip
 " default <tab> <c-j> <c-k>
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<Enter>"
-let g:UltiSnipsJumpForwardTrigger="<Enter>"
+"let g:UltiSnipsExpandTrigger="<Enter>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-j>" "it is <c-enter> actually
 """ If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 function! g:UltiSnips_Complete()
-	call UltiSnips#ExpandSnippet()
-	if g:ulti_expand_res == 0
-		call UltiSnips#JumpForwards()
-		if g:ulti_jump_forwards_res == 0
-			return "\<enter>"
+	if pumvisible()
+		return "\<c-n>"
+	else
+		call UltiSnips#ExpandSnippet()
+		if g:ulti_expand_res == 0
+			call UltiSnips#JumpForwards()
+			if g:ulti_jump_forwards_res == 0
+				return "\<tab>"
+			endif
 		endif
 	endif
 	return ""
 endfunction
-autocmd Bufenter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
 let g:UltiSnipsListSnippets="<c-e>"
 " this mapping Enter key to <C-y> to chose the current highlight item 
 " and close the selection list, same as other IDEs.
@@ -185,6 +190,12 @@ let g:airline_detect_whitespace = 0
 
 " tagbar
 map <silent> <F3> :TagbarToggle<CR>
+
+" a.vim
+nmap ;; :A<CR>
+
+" vim-autoclose
+let g:autoclose_vim_commentmode = 1
 
 " calendar
 let g:calendar_google_calendar = 3
