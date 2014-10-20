@@ -157,13 +157,27 @@ function! g:UltiSnips_Complete()
 endfunction
 autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
+function! g:UltiSnips_Expand()
+	if pumvisible()
+		call UltiSnips#ExpandSnippet()
+		if g:ulti_expand_res == 0
+			return "\<c-y>"
+		else
+			return ""
+		endif
+	else
+		return "\<c-g>u\<CR>"
+	endif
+endfunction
+inoremap <silent> <CR> <C-R>=g:UltiSnips_Expand()<cr>
+
 let g:UltiSnipsListSnippets="<c-e>"
 " this mapping Enter key to <C-y> to chose the current highlight item 
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <CR> pumvisible() ? "<Esc>\<c-y>" : "\<C-g>u\<CR>"
 
-" cvim, the first twoo also for Ack
+" cvim, the first two mapping are also for Ack
 map <silent> <F10> <Esc>:cprevious<CR>
 map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
