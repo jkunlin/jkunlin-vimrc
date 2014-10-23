@@ -8,13 +8,13 @@ endsnippet
 snippet cl "class .. (class)"
 class ${1:`!p snip.rv = snip.basename or "name"`} {
 public:
-	${1/(\w+).*/$1/} (${2});
-	virtual ~${1/(\w+).*/$1/} ();
-
+	${1/(\w+).*/$1/} (${2}) ${3:: } {$4};
+	virtual ~${1/(\w+).*/$1/} () {$5};
+	$7
 private:
-	${3:/* data */}
+	${6:/* data */}
 };
-$4
+$8
 endsnippet
 
 snippet ns "namespace .. (namespace)"

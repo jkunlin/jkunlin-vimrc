@@ -129,7 +129,7 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 ""let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
+"let g:ycm_seed_identifiers_with_syntax = 1
 nnoremap <leader><leader> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ultisnip
@@ -161,10 +161,10 @@ function! g:UltiSnips_Expand()
 	if pumvisible()
 		call UltiSnips#ExpandSnippet()
 		if g:ulti_expand_res == 0
-			return "\<c-y>"
-		else
+			call UltiSnips#JumpForwards()
 			return ""
 		endif
+		return ""
 	else
 		return "\<c-g>u\<CR>"
 	endif
@@ -182,6 +182,9 @@ map <silent> <F10> <Esc>:cprevious<CR>
 map <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
+
+" Ack
+let g:ack_autoclose = 1
 
 " NERD
 map <silent> <F2> :NERDTreeToggle<CR>
