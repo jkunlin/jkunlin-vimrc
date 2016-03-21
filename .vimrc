@@ -203,7 +203,8 @@ let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 " airline
 set t_Co=256
 set laststatus=2 "show status line even when only single window is opened
-let g:airline_detect_whitespace = 0
+"let g:airline_detect_whitespace = 0
+let g:airline#extensions#whitespace = 0
 
 " tagbar
 map <silent> <F3> :TagbarToggle<CR>
@@ -217,3 +218,6 @@ let g:autoclose_vim_commentmode = 1
 " calendar
 let g:calendar_google_calendar = 3
 let g:calendar_google_task = 3
+
+set foldmethod=syntax
+set foldlevel=100
