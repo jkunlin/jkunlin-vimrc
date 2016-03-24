@@ -43,6 +43,7 @@ Plugin 'majutsushi/tagbar' "need exuberant ctag installed
 Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'vim-scripts/Conque-GDB'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -221,3 +222,8 @@ let g:calendar_google_task = 3
 
 set foldmethod=syntax
 set foldlevel=100
+
+" Conque-GDB
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly  
