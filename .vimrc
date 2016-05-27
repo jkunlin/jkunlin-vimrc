@@ -197,6 +197,19 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 nmap <c-t> :browse tabnew<CR>M 
 imap <c-t> <Esc>:browse tabnew<CR>M
 
+" git-NERD
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "*",
+    \ "Staged"    : "+",
+    \ "Untracked" : "^",
+    \ "Renamed"   : "->",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "x",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
 "easy-motion
 map <Leader> <Plug>(easymotion-prefix)
 map <silent> <Leader>l <Plug>(easymotion-lineforward)
