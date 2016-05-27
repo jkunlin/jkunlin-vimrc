@@ -29,6 +29,7 @@ Plugin 'gmarik/Vundle.vim'
 ""'name': 'newL9'}
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'bling/vim-airline'
 Plugin 'mileszs/ack.vim' "need ack installed
 Plugin 'kien/ctrlp.vim'
@@ -111,12 +112,15 @@ map k gk
 " Disable highlight when <leader><CR>
 map <silent> <leader><CR> :noh<CR>
 set cursorline
+hi CursorLine cterm=NONE ctermbg=darkgray guibg=darkgray
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nmap <silent> <c-h> <c-w>h
 nmap <silent> <c-j> <c-w>j
 nmap <silent> <c-k> <c-w>k
 nmap <silent> <c-l> <c-w>l
+nmap <silent> + :vertical resize +5<CR>
+nmap <silent> - :vertical resize -5<CR>
 
 " vimgdb
 let g:vimgdb_debug_file = ""
@@ -189,7 +193,7 @@ let g:ack_autoclose = 1
 
 " NERD
 map <silent> <F2> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <c-t> :browse tabnew<CR>M 
 imap <c-t> <Esc>:browse tabnew<CR>M
 
