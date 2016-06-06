@@ -45,6 +45,14 @@ Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.v
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/Conque-GDB'
+Plugin 'gerw/vim-latex-suite'
+"" this is mostly a matter of taste. but LaTeX looks good with just a bit
+"" of indentation.
+"set sw=2
+"" TIP: if you write your \label's as \label{fig:something}, then if you
+"" type in \ref{fig: and press <C-n> you will automatically cycle through
+"" all the figure labels. Very useful!
+"set iskeyword+=:}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -167,7 +175,7 @@ function! g:UltiSnips_Expand()
 		call UltiSnips#ExpandSnippet()
 		if g:ulti_expand_res == 0
 			call UltiSnips#JumpForwards()
-			return ""
+			return "\<Esc>a"
 		endif
 		return ""
 	else
@@ -244,3 +252,10 @@ set foldlevel=100
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly  
+
+" latex suite
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
