@@ -34,11 +34,11 @@ Plugin 'bling/vim-airline'
 Plugin 'mileszs/ack.vim' "need ack installed
 Plugin 'kien/ctrlp.vim'
 Plugin 'spf13/vim-autoclose'
-Plugin 'godlygeek/tabular'
+Plugin 'godlygeek/tabular' "align
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tomasr/molokai'
+Plugin 'tomasr/molokai' "color theme
 Plugin 'tpope/vim-fugitive'
-Plugin 'itchyny/calendar.vim'
+" Plugin 'itchyny/calendar.vim'
 " Plugin 'mattn/calendar-vim'
 Plugin 'majutsushi/tagbar' "need exuberant ctag installed
 Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
@@ -197,7 +197,7 @@ let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
 " Ack
-let g:ack_autoclose = 1
+let g:ack_autoclose = 0
 
 " NERD
 map <silent> <F2> :NERDTreeToggle<CR>
