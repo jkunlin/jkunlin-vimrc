@@ -45,7 +45,9 @@ Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.v
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/Conque-GDB'
-Plugin 'gerw/vim-latex-suite'
+Plugin 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
+"Plugin 'LaTeX-Box-Team/LaTeX-Box'
+"Plugin 'gerw/vim-latex-suite'
 "" this is mostly a matter of taste. but LaTeX looks good with just a bit
 "" of indentation.
 "set sw=2
@@ -185,7 +187,7 @@ endfunction
 inoremap <silent> <CR> <C-R>=g:UltiSnips_Expand()<cr>
 
 let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item 
+" this mapping Enter key to <C-y> to chose the current highlight item
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
 "inoremap <expr> <CR> pumvisible() ? "<Esc>\<c-y>" : "\<C-g>u\<CR>"
@@ -202,7 +204,7 @@ let g:ack_autoclose = 0
 " NERD
 map <silent> <F2> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-nmap <c-t> :browse tabnew<CR>M 
+nmap <c-t> :browse tabnew<CR>M
 imap <c-t> <Esc>:browse tabnew<CR>M
 
 " git-NERD
@@ -251,11 +253,24 @@ set foldlevel=100
 " Conque-GDB
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly  
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 
 " latex suite
 " IMPORTANT: grep will sometimes skip displaying the file name if you
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='latex'
+"set grepprg=grep\ -nH\ $*
+"let g:tex_flavor='latex'
+
+"vimtex
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
+let g:vimtex_quickfix_ignored_warnings = [
+			\ 'Underfull',
+			\ 'Overfull',
+			\ 'specifier changed to',
+			\ ]
+
+"UltiSnips
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
