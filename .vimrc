@@ -34,10 +34,13 @@ Plugin 'bling/vim-airline'
 Plugin 'mileszs/ack.vim' "need ack installed
 Plugin 'kien/ctrlp.vim'
 Plugin 'spf13/vim-autoclose'
+"Plugin 'Raimondi/delimitMate' "the same as vim-autoclose
 Plugin 'godlygeek/tabular' "align
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tomasr/molokai' "color theme
 Plugin 'tpope/vim-fugitive'
+Plugin 'Konfekt/FastFold' "make fold fast
+Plugin 'gi1242/vim-tex-syntax' "make tex fast
 " Plugin 'itchyny/calendar.vim'
 " Plugin 'mattn/calendar-vim'
 Plugin 'majutsushi/tagbar' "need exuberant ctag installed
@@ -79,7 +82,6 @@ else
     set background=dark
 endif
 "colorscheme solarized
-syntax enable
 if has('gui_running')
 	set guifont=Courier_New:h10:cANSI
 endif

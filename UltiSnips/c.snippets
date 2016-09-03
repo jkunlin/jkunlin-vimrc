@@ -37,8 +37,15 @@ ${1:#pragma mark -
 $3
 endsnippet
 
-snippet main "main() (main)"
+snippet Main "main(int argc, char const *argv[]) (main)"
 int main(int argc, char const *argv[]) {
+	${0:/* code */}
+	return 0;
+}
+endsnippet
+
+snippet main "main() (main)"
+int main() {
 	${0:/* code */}
 	return 0;
 }
