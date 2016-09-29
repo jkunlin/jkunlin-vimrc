@@ -59,18 +59,18 @@ IncludeFile( 'cpp.preprocessor.template' )
 IncludeFile( 'cpp.cpp.template'          )
 == ENDSTYLES ==
 
-§ =============================================================
-§  Help
-§ =============================================================
-
-§ browser for help templates (UNIX)
-SetMacro( 'HELP_BROWSER', 'firefox' )
-
-§ browser for help templates (Windows)
-§SetMacro( 'HELP_BROWSER', '"C:\Program Files\Mozilla Firefox\firefox.exe"' )
-
-SetMacro( 'HelpPathEnglish', 'http://en.wiktionary.org/wiki/' )
-SetMacro( 'HelpPathDoxygen', 'http://www.stack.nl/~dimitri/doxygen/commands.html' )
-
-IncludeFile( 'help.template' )
+§§ =============================================================
+§§  Help
+§§ =============================================================
+§
+§§ browser for help templates (UNIX)
+§SetMacro( 'HELP_BROWSER', 'firefox' )
+§
+§§ browser for help templates (Windows)
+§§SetMacro( 'HELP_BROWSER', '"C:\Program Files\Mozilla Firefox\firefox.exe"' )
+§
+§SetMacro( 'HelpPathEnglish', 'http://en.wiktionary.org/wiki/' )
+§SetMacro( 'HelpPathDoxygen', 'http://www.stack.nl/~dimitri/doxygen/commands.html' )
+§
+§IncludeFile( 'help.template' )
 
