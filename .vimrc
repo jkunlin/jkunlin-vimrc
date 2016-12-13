@@ -179,7 +179,11 @@ function! g:UltiSnips_Expand()
 		call UltiSnips#ExpandSnippet()
 		if g:ulti_expand_res == 0
 			call UltiSnips#JumpForwards()
-			return "\<Esc>a"
+			if g:ulti_jump_forwards_res == 0
+				if pumvisible()
+					return "\<c-y>"
+				endif
+			endif
 		endif
 		return ""
 	else
@@ -204,7 +208,7 @@ let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 let g:ack_autoclose = 0
 
 " NERD
-map <silent> <F2> :NERDTreeToggle<CR>
+map <silent> <F6> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <c-t> :browse tabnew<CR>M
 imap <c-t> <Esc>:browse tabnew<CR>M
@@ -237,7 +241,7 @@ set laststatus=2 "show status line even when only single window is opened
 let g:airline#extensions#whitespace = 0
 
 " tagbar
-map <silent> <F3> :TagbarToggle<CR>
+map <silent> <F7> :TagbarToggle<CR>
 
 " a.vim
 nmap ;; :A<CR>
@@ -276,3 +280,5 @@ let g:vimtex_quickfix_ignored_warnings = [
 
 "UltiSnips
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
+inoremap <silent> jk <esc>
