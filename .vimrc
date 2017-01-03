@@ -37,7 +37,10 @@ Plugin 'spf13/vim-autoclose'
 "Plugin 'Raimondi/delimitMate' "the same as vim-autoclose
 Plugin 'godlygeek/tabular' "align
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tomasr/molokai' "color theme
+"Plugin 'godlygeek/csapprox' "for color
+"Plugin 'jellybeans.vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Konfekt/FastFold' "make fold fast
 Plugin 'gi1242/vim-tex-syntax' "make tex fast
@@ -76,15 +79,7 @@ filetype plugin indent on    " required
 
 set nu
 syntax enable
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
-"colorscheme solarized
-if has('gui_running')
-	set guifont=Courier_New:h10:cANSI
-endif
+set termguicolors
 set confirm
 set autoindent
 set cindent
@@ -124,7 +119,7 @@ map k gk
 " Disable highlight when <leader><CR>
 map <silent> <leader><CR> :noh<CR>
 set cursorline
-hi CursorLine cterm=NONE ctermbg=darkgray guibg=darkgray
+"hi CursorLine cterm=NONE ctermbg=darkgray guibg=darkgray
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nmap <silent> <c-h> <c-w>h
@@ -282,3 +277,14 @@ let g:vimtex_quickfix_ignored_warnings = [
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
 inoremap <silent> jk <esc>
+
+"" IMPORTANT: Uncomment one of the following lines to force
+"" using 256 colors (or 88 colors) if your terminal supports it,
+"" but does not automatically use 256 colors by default.
+""set t_Co=256
+""set t_Co=88
+"let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
+
+let g:gruvbox_italic=1
+colorscheme gruvbox
+set background=dark
