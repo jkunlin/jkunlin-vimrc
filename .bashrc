@@ -126,7 +126,7 @@ fi
 
 alias vim='vim --servername vim'
 #eval `dircolors  .dircolors/dircolors.256dark`
-#export TERM=xterm-256color 
+export TERM=xterm-256color
 alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 . /usr/share/autojump/autojump.sh

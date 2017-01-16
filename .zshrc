@@ -85,7 +85,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim='vim --servername vim'
-export XTERM="xterm-256color"
+export TERM="xterm-256color"
 alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 alias ll='ls -alF'

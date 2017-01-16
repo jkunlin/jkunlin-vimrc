@@ -46,6 +46,7 @@ Plugin 'Konfekt/FastFold' "make fold fast
 Plugin 'gi1242/vim-tex-syntax' "make tex fast
 " Plugin 'itchyny/calendar.vim'
 " Plugin 'mattn/calendar-vim'
+Plugin 'mbbill/undotree' "mkdir ~/.undodir
 Plugin 'majutsushi/tagbar' "need exuberant ctag installed
 Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
 Plugin 'SirVer/ultisnips'
@@ -281,10 +282,17 @@ inoremap <silent> jk <esc>
 "" IMPORTANT: Uncomment one of the following lines to force
 "" using 256 colors (or 88 colors) if your terminal supports it,
 "" but does not automatically use 256 colors by default.
-""set t_Co=256
+"set t_Co=256
 ""set t_Co=88
 "let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 let g:gruvbox_italic=1
 colorscheme gruvbox
 set background=dark
+
+"undotree
+nnoremap <F8> :UndotreeToggle<cr>
+if has("persistent_undo")
+	set undodir=~/.undodir/
+	set undofile
+endif
