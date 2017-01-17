@@ -52,6 +52,7 @@ Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.v
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'vim-scripts/Conque-GDB'
+Plugin 'vim-scripts/matchit.zip'
 Plugin 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
 "Plugin 'LaTeX-Box-Team/LaTeX-Box'
 "Plugin 'gerw/vim-latex-suite'
