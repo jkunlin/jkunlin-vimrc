@@ -117,20 +117,20 @@ endif
 
 set completeopt=longest,menu
 " Treat long lines as break lines
-map j gj
-map k gk
+noremap j gj
+noremap k gk
 " Disable highlight when <leader><CR>
-map <silent> <leader><CR> :noh<CR>
+noremap <silent> <leader><CR> :noh<CR>
 set cursorline
 "hi CursorLine cterm=NONE ctermbg=darkgray guibg=darkgray
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
-nmap <silent> <c-h> <c-w>h
-nmap <silent> <c-j> <c-w>j
-nmap <silent> <c-k> <c-w>k
-nmap <silent> <c-l> <c-w>l
-nmap <silent> + :vertical resize +5<CR>
-nmap <silent> - :vertical resize -5<CR>
+nnoremap <silent> <c-h> <c-w>h
+nnoremap <silent> <c-j> <c-w>j
+nnoremap <silent> <c-k> <c-w>k
+nnoremap <silent> <c-l> <c-w>l
+nnoremap <silent> + :vertical resize +5<CR>
+nnoremap <silent> - :vertical resize -5<CR>
 
 " vimgdb
 let g:vimgdb_debug_file = ""
@@ -197,8 +197,8 @@ let g:UltiSnipsListSnippets="<c-e>"
 "inoremap <expr> <CR> pumvisible() ? "<Esc>\<c-y>" : "\<C-g>u\<CR>"
 
 " cvim, the first two mapping are also for Ack
-map <silent> <F10> <Esc>:cprevious<CR>
-map <silent> <F12> <Esc>:cnext<CR>
+noremap <silent> <F10> <Esc>:cprevious<CR>
+noremap <silent> <F12> <Esc>:cnext<CR>
 let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
 let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
@@ -206,10 +206,10 @@ let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 let g:ack_autoclose = 0
 
 " NERD
-map <silent> <F6> :NERDTreeToggle<CR>
+noremap <silent> <F6> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-nmap <c-t> :browse tabnew<CR>M
-imap <c-t> <Esc>:browse tabnew<CR>M
+"nmap <c-t> :browse tabnew<CR>M
+"imap <c-t> <Esc>:browse tabnew<CR>M
 
 " git-NERD
 let g:NERDTreeIndicatorMapCustom = {
@@ -239,10 +239,10 @@ set laststatus=2 "show status line even when only single window is opened
 let g:airline#extensions#whitespace = 0
 
 " tagbar
-map <silent> <F7> :TagbarToggle<CR>
+noremap <silent> <F7> :TagbarToggle<CR>
 
 " a.vim
-nmap ;; :A<CR>
+nnoremap ;; :A<CR>
 
 " vim-autoclose
 let g:autoclose_vim_commentmode = 1
@@ -298,3 +298,5 @@ if has("persistent_undo")
 	set undodir=~/.undodir/
 	set undofile
 endif
+
+"autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
