@@ -1,84 +1,39 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+call plug#begin('~/.vim/bundle')
 
-"set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Make sure you use single quotes
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+Plug 'majutsushi/tagbar' "need exuberant ctag installed
+Plug 'bling/vim-airline'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-""Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-""Plugin 'L9'
-" Git plugin not hosted on GitHub
-""Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-""Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-""Plugin 'rstacruz/sparkup', {
-""'rtp': 'vim/'}
-""" Avoid a name conflict with L9
-""Plugin 'user/L9', {
-""'name': 'newL9'}
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'bling/vim-airline'
-Plugin 'mileszs/ack.vim' "need ack installed
-Plugin 'kien/ctrlp.vim'
-Plugin 'spf13/vim-autoclose'
-"Plugin 'Raimondi/delimitMate' "the same as vim-autoclose
-Plugin 'godlygeek/tabular' "align
-Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'godlygeek/csapprox' "for color
-"Plugin 'jellybeans.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Konfekt/FastFold' "make fold fast
-Plugin 'gi1242/vim-tex-syntax' "make tex fast
-" Plugin 'itchyny/calendar.vim'
-" Plugin 'mattn/calendar-vim'
-Plugin 'mbbill/undotree' "mkdir ~/.undodir
-Plugin 'majutsushi/tagbar' "need exuberant ctag installed
-Plugin 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'vim-scripts/Conque-GDB'
-Plugin 'vim-scripts/matchit.zip'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
-"Plugin 'LaTeX-Box-Team/LaTeX-Box'
-"Plugin 'gerw/vim-latex-suite'
-"" this is mostly a matter of taste. but LaTeX looks good with just a bit
-"" of indentation.
-"set sw=2
-"" TIP: if you write your \label's as \label{fig:something}, then if you
-"" type in \ref{fig: and press <C-n> you will automatically cycle through
-"" all the figure labels. Very useful!
-"set iskeyword+=:}
+Plug 'Lokaltog/vim-easymotion'
+Plug 'mileszs/ack.vim' "need ack installed
+Plug 'kien/ctrlp.vim'
+Plug 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
+Plug 'spf13/vim-autoclose'
+"Plug 'Raimondi/delimitMate' "the same as vim-autoclose
+Plug 'godlygeek/tabular' "align
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'tpope/vim-fugitive'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+"Plug 'godlygeek/csapprox' "for color
+"Plug 'jellybeans.vim'
+Plug 'morhetz/gruvbox'
+
+Plug 'Konfekt/FastFold' "make fold fast
+Plug 'gi1242/vim-tex-syntax' "make tex fast
+
+Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'} "mkdir ~/.undodir
+Plug 'vim-scripts/Conque-GDB'
+Plug 'vim-scripts/matchit.zip'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
+
+" Initialize plugin system
+call plug#end()
 
 set nu
 syntax enable
@@ -101,19 +56,6 @@ set showcmd
 if has("autocmd")  "Jump to the last edited line
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
-"":inoremap ( ()<ESC>i
-"":inoremap ) <c-r>=ClosePair(')')<CR>
-"":inoremap {<CR> {<CR>}<ESC>O
-"":inoremap } <c-r>=ClosePair('}')<CR>
-"":inoremap [ []<ESC>i
-"":inoremap ] <c-r>=ClosePair(']')<CR>
-""function! ClosePair(char)
-""    if getline('.')[col('.') - 1] == a:char
-""        return "\<Right>"
-""    else
-""        return a:char
-""    endif
-""endfunction
 
 set completeopt=longest,menu
 " Treat long lines as break lines
@@ -132,11 +74,6 @@ nnoremap <silent> <c-l> <c-w>l
 nnoremap <silent> + :vertical resize +5<CR>
 nnoremap <silent> - :vertical resize -5<CR>
 
-" vimgdb
-let g:vimgdb_debug_file = ""
-source ~/.vim/macros/gdb_mappings.vim
-"map <F8> :bel 30vsplit gdb-variables<CR><c-w>h
-
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 ""let g:ycm_add_preview_to_completeopt = 1
@@ -152,7 +89,7 @@ nnoremap <leader><leader> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<Enter>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>" "it is <c-enter> actually
+let g:UltiSnipsJumpBackwardTrigger="<c-j>" "<c-j> is <c-enter> actually
 """ If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
@@ -213,16 +150,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " git-NERD
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "*",
-    \ "Staged"    : "+",
-    \ "Untracked" : "^",
-    \ "Renamed"   : "->",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "x",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
+			\ "Modified"  : "*",
+			\ "Staged"    : "+",
+			\ "Untracked" : "^",
+			\ "Renamed"   : "->",
+			\ "Unmerged"  : "═",
+			\ "Deleted"   : "x",
+			\ "Dirty"     : "✗",
+			\ "Clean"     : "✔︎",
+			\ "Unknown"   : "?"
+			\ }
 
 "easy-motion
 map <Leader> <Plug>(easymotion-prefix)
@@ -235,7 +172,6 @@ let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 " airline
 "set t_Co=256
 set laststatus=2 "show status line even when only single window is opened
-"let g:airline_detect_whitespace = 0
 let g:airline#extensions#whitespace = 0
 
 " tagbar
@@ -259,13 +195,6 @@ let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always w
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 
-" latex suite
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-"set grepprg=grep\ -nH\ $*
-"let g:tex_flavor='latex'
-
 "vimtex
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
@@ -276,9 +205,6 @@ let g:vimtex_quickfix_ignored_warnings = [
 			\ 'specifier changed to',
 			\ ]
 
-"UltiSnips
-"let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-
 inoremap <silent> jk <esc>
 
 "" IMPORTANT: Uncomment one of the following lines to force
@@ -288,7 +214,7 @@ inoremap <silent> jk <esc>
 ""set t_Co=88
 "let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
-let g:gruvbox_italic=1
+let g:gruvbox_italic=0
 colorscheme gruvbox
 set background=dark
 
@@ -300,3 +226,5 @@ if has("persistent_undo")
 endif
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
+
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
