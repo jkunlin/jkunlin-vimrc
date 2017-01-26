@@ -6,13 +6,14 @@ call plug#begin('~/.vim/bundle')
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
 
 Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack installed
 Plug 'kien/ctrlp.vim'
-Plug 'a.vim' "<leader>is confilct with c.vim, need to modify ~/.vim/bundle/a.vim/plugin/a.vim
+Plug 'vim-scripts/a.vim'
 Plug 'spf13/vim-autoclose'
 "Plug 'Raimondi/delimitMate' "the same as vim-autoclose
 Plug 'godlygeek/tabular' "align
@@ -35,7 +36,8 @@ Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --serverna
 " Initialize plugin system
 call plug#end()
 
-set nu
+set number
+set relativenumber
 syntax enable
 set termguicolors
 set confirm
@@ -53,18 +55,23 @@ set incsearch
 set smartindent
 set backspace=indent,eol,start
 set showcmd
-if has("autocmd")  "Jump to the last edited line
-	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-endif
-
+set foldmethod=syntax
+set foldlevel=100
 set completeopt=longest,menu
+set cursorline
+
+inoremap <silent> jk <esc>
+let mapleader = ";"
+
+" Jump to the last edited line
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
+autocmd filetype plaintex :set colorcolumn=80
+
 " Treat long lines as break lines
-noremap j gj
-noremap k gk
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 " Disable highlight when <leader><CR>
 noremap <silent> <leader><CR> :noh<CR>
-set cursorline
-"hi CursorLine cterm=NONE ctermbg=darkgray guibg=darkgray
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nnoremap <silent> <c-h> <c-w>h
@@ -82,14 +89,20 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_seed_identifiers_with_syntax = 1
-nnoremap <leader><leader> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ultisnip
+let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "mysnippets"]
+function! g:UltiSnipsDocComment() abort
+	execute "normal! idh" . "\<c-r>=UltiSnips#ExpandSnippet()\<CR>"
+endfunction
+autocmd BufNewFile *{c,cpp,cc,h} silent! call g:UltiSnipsDocComment()
+
 " default <tab> <c-j> <c-k>
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 "let g:UltiSnipsExpandTrigger="<Enter>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>" "<c-j> is <c-enter> actually
+let g:UltiSnipsJumpBackwardTrigger="<NL>" "<c-j> is <c-enter> actually
 """ If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
@@ -133,11 +146,9 @@ let g:UltiSnipsListSnippets="<c-e>"
 " CONFLICT with some plugins like tpope/Endwise
 "inoremap <expr> <CR> pumvisible() ? "<Esc>\<c-y>" : "\<C-g>u\<CR>"
 
-" cvim, the first two mapping are also for Ack
+" quickfix
 noremap <silent> <F10> <Esc>:cprevious<CR>
 noremap <silent> <F12> <Esc>:cnext<CR>
-let g:C_CplusCFlags = '-Wall -g -o0 -std=c++0x -c'
-let g:C_CplusLFlags = '-Wall -g -o0 -std=c++0x'
 
 " Ack
 let g:ack_autoclose = 0
@@ -161,7 +172,7 @@ let g:NERDTreeIndicatorMapCustom = {
 			\ "Unknown"   : "?"
 			\ }
 
-"easy-motion
+" easy-motion
 map <Leader> <Plug>(easymotion-prefix)
 map <silent> <Leader>l <Plug>(easymotion-lineforward)
 map <silent> <Leader>j <Plug>(easymotion-j)
@@ -178,24 +189,17 @@ let g:airline#extensions#whitespace = 0
 noremap <silent> <F7> :TagbarToggle<CR>
 
 " a.vim
-nnoremap ;; :A<CR>
+nnoremap <leader><leader> :A<CR>
 
 " vim-autoclose
 let g:autoclose_vim_commentmode = 1
-
-" calendar
-let g:calendar_google_calendar = 3
-let g:calendar_google_task = 3
-
-set foldmethod=syntax
-set foldlevel=100
 
 " Conque-GDB
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
 
-"vimtex
+" vimtex
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
@@ -205,20 +209,20 @@ let g:vimtex_quickfix_ignored_warnings = [
 			\ 'specifier changed to',
 			\ ]
 
-inoremap <silent> jk <esc>
+" csapprox
+" IMPORTANT: Uncomment one of the following lines to force
+" using 256 colors (or 88 colors) if your terminal supports it,
+" but does not automatically use 256 colors by default.
+" set t_Co=256
+" set t_Co=88
+" let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
-"" IMPORTANT: Uncomment one of the following lines to force
-"" using 256 colors (or 88 colors) if your terminal supports it,
-"" but does not automatically use 256 colors by default.
-"set t_Co=256
-""set t_Co=88
-"let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-
+" gruvbox
 let g:gruvbox_italic=0
 colorscheme gruvbox
 set background=dark
 
-"undotree
+" undotree
 nnoremap <F8> :UndotreeToggle<cr>
 if has("persistent_undo")
 	set undodir=~/.undodir/
@@ -226,5 +230,3 @@ if has("persistent_undo")
 endif
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
-
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
