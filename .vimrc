@@ -37,7 +37,7 @@ Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
 
-Plug 'vim-scripts/Conque-GDB'
+Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 
 " Initialize plugin system
 call plug#end()
@@ -278,3 +278,5 @@ call textobj#user#plugin('number', {
 \ })
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
+
+command! GDB call plug#load('Conque-GDB') | ConqueGdb
