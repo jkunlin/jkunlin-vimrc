@@ -10,28 +10,34 @@ Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
 
-Plug 'Lokaltog/vim-easymotion'
-Plug 'mileszs/ack.vim' "need ack installed
-Plug 'kien/ctrlp.vim'
+Plug 'justinmk/vim-sneak'
+" Plug 'Lokaltog/vim-easymotion'
+Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/matchit.zip'
+
+Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
 Plug 'spf13/vim-autoclose'
 "Plug 'Raimondi/delimitMate' "the same as vim-autoclose
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-surround'
+Plug 'kana/vim-textobj-user'
+" Plug 'tkhren/vim-textobj-numeral'
+Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular' "align
-Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'tpope/vim-fugitive'
 
 "Plug 'godlygeek/csapprox' "for color
 "Plug 'jellybeans.vim'
 Plug 'morhetz/gruvbox'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
-
-Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'} "mkdir ~/.undodir
-Plug 'vim-scripts/Conque-GDB'
-Plug 'vim-scripts/matchit.zip'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
+
+Plug 'vim-scripts/Conque-GDB'
 
 " Initialize plugin system
 call plug#end()
@@ -65,7 +71,9 @@ let mapleader = ";"
 
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
-autocmd filetype plaintex :set colorcolumn=80
+
+" autocmd filetype plaintex,tex :setlocal colorcolumn=80 formatoptions=tcq textwidth=80
+autocmd filetype plaintex,tex :setlocal colorcolumn=80
 
 " Treat long lines as break lines
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -151,7 +159,24 @@ noremap <silent> <F10> <Esc>:cprevious<CR>
 noremap <silent> <F12> <Esc>:cnext<CR>
 
 " Ack
+if executable('ag')
+	" let g:ackprg = 'ag --nogroup --nocolor --column'
+	let g:ackprg = 'ag --vimgrep'
+endif
 let g:ack_autoclose = 0
+
+" ctrlp
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag -Q -l --nocolor --hidden -g "" %s'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 " NERD
 noremap <silent> <F6> :NERDTreeToggle<CR>
@@ -173,12 +198,15 @@ let g:NERDTreeIndicatorMapCustom = {
 			\ }
 
 " easy-motion
-map <Leader> <Plug>(easymotion-prefix)
-map <silent> <Leader>l <Plug>(easymotion-lineforward)
-map <silent> <Leader>j <Plug>(easymotion-j)
-map <silent> <Leader>k <Plug>(easymotion-k)
-map <silent> <Leader>h <Plug>(easymotion-linebackward)
-let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
+" map <Leader> <Plug>(easymotion-prefix)
+" map <silent> <Leader>l <Plug>(easymotion-lineforward)
+" map <silent> <Leader>j <Plug>(easymotion-j)
+" map <silent> <Leader>k <Plug>(easymotion-k)
+" map <silent> <Leader>h <Plug>(easymotion-linebackward)
+" let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
+
+" vim-sneak
+let g:sneak#s_next = 1
 
 " airline
 "set t_Co=256
@@ -228,5 +256,25 @@ if has("persistent_undo")
 	set undodir=~/.undodir/
 	set undofile
 endif
+
+" vim-surround
+autocmd fileType plaintex,tex let b:surround_{char2nr('b')} = "\\textbf{\r}"
+autocmd fileType plaintex,tex let b:surround_{char2nr('i')} = "\\textit{\r}"
+autocmd fileType plaintex,tex let b:surround_{char2nr('$')} = "$\r$"
+autocmd fileType plaintex,tex let g:surround_{char2nr('c')} = "\\\1command\1{\r}"
+
+" vim-textobj-user
+let g:textobj_numeral_pattern = '\%(\<[[:digit:]]\+\%(\.[[:digit:]]\+\)\=\%([Ee][[:digit:]]\+\)\=\>\|\<0[xXbBoOdD][[:xdigit:]]\+\>\)'
+let g:textobj_solution_pattern = g:textobj_numeral_pattern . '(' . g:textobj_numeral_pattern . ')'
+call textobj#user#plugin('number', {
+\   '-': {
+\     'pattern': g:textobj_numeral_pattern,
+\     'select': ['an', 'in'],
+\   },
+\   's': {
+\     'pattern': g:textobj_solution_pattern,
+\     'select': ['as', 'is'],
+\   }
+\ })
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold

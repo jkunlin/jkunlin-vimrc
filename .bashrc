@@ -124,9 +124,14 @@ if [ -x /usr/bin/mint-fortune ]; then
      /usr/bin/mint-fortune
 fi
 
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export JAVA_HOME=/usr/java/jdk1.6.0_45
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
 alias vim='vim --servername vim'
 #eval `dircolors  .dircolors/dircolors.256dark`
-export TERM=xterm-256color
+export TERM=xterm-256color 
 alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 . /usr/share/autojump/autojump.sh

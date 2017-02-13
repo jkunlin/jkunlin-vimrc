@@ -1,8 +1,12 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export JAVA_HOME=~/jdk1.8.0_121
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/pkutcs/.oh-my-zsh
+export ZSH=/home/pkutcs/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -89,3 +93,5 @@ export TERM="xterm-256color"
 alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 alias ll='ls -alF'
+alias l='ls'
+alias jabref='java -jar ~/jabref/JabRef-3.8.2.jar'
