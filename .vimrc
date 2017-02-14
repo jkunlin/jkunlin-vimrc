@@ -39,6 +39,7 @@ Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --serverna
 
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 
+
 " Initialize plugin system
 call plug#end()
 
@@ -104,7 +105,7 @@ let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "m
 function! g:UltiSnipsDocComment() abort
 	execute "normal! idh" . "\<c-r>=UltiSnips#ExpandSnippet()\<CR>"
 endfunction
-autocmd BufNewFile *{c,cpp,cc,h} silent! call g:UltiSnipsDocComment()
+autocmd BufNewFile *{.c,.cpp,.cc,.h} silent! call g:UltiSnipsDocComment()
 
 " default <tab> <c-j> <c-k>
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
