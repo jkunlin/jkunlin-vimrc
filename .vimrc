@@ -35,7 +35,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
-Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim'
+Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 
@@ -230,7 +230,7 @@ let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is c
 
 " vimtex
 let g:vimtex_view_general_viewer = 'okular'
-let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
 let g:vimtex_quickfix_ignored_warnings = [
 			\ 'Underfull',
