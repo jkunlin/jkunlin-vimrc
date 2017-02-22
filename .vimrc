@@ -68,7 +68,7 @@ set completeopt=longest,menu
 set cursorline
 
 inoremap <silent> jk <esc>
-let mapleader = ";"
+let mapleader = ","
 
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
@@ -280,4 +280,4 @@ call textobj#user#plugin('number', {
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
 
-command! GDB call plug#load('Conque-GDB') | ConqueGdb
+command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
