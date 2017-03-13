@@ -62,13 +62,13 @@ set incsearch
 set smartindent
 set backspace=indent,eol,start
 set showcmd
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevel=100
 set completeopt=longest,menu
 set cursorline
 
 inoremap <silent> jk <esc>
-let mapleader = ","
+let mapleader = " "
 
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
@@ -80,7 +80,7 @@ autocmd filetype plaintex,tex :setlocal colorcolumn=80
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 " Disable highlight when <leader><CR>
-noremap <silent> <leader><CR> :noh<CR>
+noremap <silent> <leader>h :noh<CR>
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nnoremap <silent> <c-h> <c-w>h
@@ -91,7 +91,7 @@ nnoremap <silent> + :vertical resize +5<CR>
 nnoremap <silent> - :vertical resize -5<CR>
 
 " YCM
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 ""let g:ycm_add_preview_to_completeopt = 1
 ""let g:ycm_autoclose_preview_window_after_completion = 1
 ""let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -218,7 +218,7 @@ let g:airline#extensions#whitespace = 0
 noremap <silent> <F7> :TagbarToggle<CR>
 
 " a.vim
-nnoremap <leader><leader> :A<CR>
+nnoremap <leader>a :A<CR>
 
 " vim-autoclose
 let g:autoclose_vim_commentmode = 1
@@ -247,7 +247,7 @@ let g:vimtex_quickfix_ignored_warnings = [
 " let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 " gruvbox
-let g:gruvbox_italic=0
+let g:gruvbox_italic=1
 colorscheme gruvbox
 set background=dark
 
