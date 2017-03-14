@@ -13,20 +13,17 @@ Plug 'bling/vim-airline'
 Plug 'justinmk/vim-sneak'
 " Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
-Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'wincent/command-t', { 'do': 'cd ruby/command-t && ruby extconf.rb && make' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
 Plug 'spf13/vim-autoclose'
-"Plug 'Raimondi/delimitMate' "the same as vim-autoclose
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'kana/vim-textobj-user'
-" Plug 'tkhren/vim-textobj-numeral'
 Plug 'tpope/vim-repeat'
-Plug 'godlygeek/tabular' "align
+Plug 'junegunn/vim-easy-align',  { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'tpope/vim-fugitive'
 
 "Plug 'godlygeek/csapprox' "for color
@@ -68,6 +65,7 @@ set completeopt=longest,menu
 set cursorline
 
 inoremap <silent> jk <esc>
+cnoremap <silent> jk <c-c>
 let mapleader = "\<space>"
 
 " Jump to the last edited line
@@ -87,8 +85,25 @@ nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
 nnoremap <silent> <c-l> <c-w>l
-nnoremap <silent> + :vertical resize +5<CR>
+nnoremap <silent> = :vertical resize +5<CR>
 nnoremap <silent> - :vertical resize -5<CR>
+nnoremap <silent> <leader>= :resize +5<CR>
+nnoremap <silent> <leader>- :resize -5<CR>
+
+nnoremap <leader>w :update<cr>
+nnoremap <Leader>q :q<cr>
+nnoremap <Leader>Q :qa!<cr>
+
+" Zoom
+function! s:zoom()
+	if winnr('$') > 1
+		tab split
+	elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
+				\ 'index(v:val, '.bufnr('').') >= 0')) > 1
+		tabclose
+	endif
+endfunction
+nnoremap <silent> <leader>z :call <sid>zoom()<cr>
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -98,7 +113,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_seed_identifiers_with_syntax = 1
-nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " ultisnip
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "mysnippets"]
@@ -166,18 +181,8 @@ if executable('ag')
 endif
 let g:ack_autoclose = 0
 
-" ctrlp
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag -Q -l --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
+" fzf
+nnoremap <leader>ff :Files<CR>
 
 " NERD
 noremap <silent> <F6> :NERDTreeToggle<CR>
@@ -253,7 +258,7 @@ let g:vimtex_quickfix_ignored_warnings = [
 " let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 " gruvbox
-let g:gruvbox_italic=1
+let g:gruvbox_italic=0
 colorscheme gruvbox
 set background=dark
 
@@ -263,6 +268,12 @@ if has("persistent_undo")
 	set undodir=~/.undodir/
 	set undofile
 endif
+
+" vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " vim-surround
 autocmd fileType plaintex,tex let b:surround_{char2nr('b')} = "\\textbf{\r}"
