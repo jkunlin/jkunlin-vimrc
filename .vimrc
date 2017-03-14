@@ -14,6 +14,7 @@ Plug 'justinmk/vim-sneak'
 " Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
 Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'wincent/command-t', { 'do': 'cd ruby/command-t && ruby extconf.rb && make' }
 Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/matchit.zip'
 
@@ -36,7 +37,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
-
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 
 
@@ -68,7 +68,7 @@ set completeopt=longest,menu
 set cursorline
 
 inoremap <silent> jk <esc>
-let mapleader = " "
+let mapleader = "\<space>"
 
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
@@ -219,6 +219,11 @@ noremap <silent> <F7> :TagbarToggle<CR>
 
 " a.vim
 nnoremap <leader>a :A<CR>
+augroup unmap_space
+	autocmd!
+	autocmd vimEnter * iunmap <leader>ihn
+	autocmd vimEnter * iunmap <leader>ih
+augroup END
 
 " vim-autoclose
 let g:autoclose_vim_commentmode = 1
