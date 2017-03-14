@@ -223,6 +223,7 @@ augroup unmap_space
 	autocmd!
 	autocmd vimEnter * iunmap <leader>ihn
 	autocmd vimEnter * iunmap <leader>ih
+	autocmd vimEnter * iunmap <leader>is
 augroup END
 
 " vim-autoclose
