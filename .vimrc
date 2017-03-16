@@ -36,7 +36,6 @@ Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 
-
 " Initialize plugin system
 call plug#end()
 
@@ -59,13 +58,14 @@ set incsearch
 set smartindent
 set backspace=indent,eol,start
 set showcmd
-set foldmethod=indent
+set foldmethod=marker
 set foldlevel=100
 set completeopt=longest,menu
 set cursorline
 
 inoremap <silent> jk <esc>
 cnoremap <silent> jk <c-c>
+xnoremap <silent> v <c-c>
 let mapleader = "\<space>"
 
 " Jump to the last edited line
@@ -93,6 +93,11 @@ nnoremap <silent> <leader>- :resize -5<CR>
 nnoremap <leader>w :update<cr>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
+
+nnoremap <leader>p :set paste<cr>
+au InsertLeave * silent! set nopaste
+
+nnoremap zf zfa{ za
 
 " Zoom
 function! s:zoom()
@@ -124,22 +129,19 @@ autocmd BufNewFile *{.c,.cpp,.cc,.h} silent! call g:UltiSnipsDocComment()
 
 " default <tab> <c-j> <c-k>
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-"let g:UltiSnipsExpandTrigger="<Enter>"
+let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<NL>" "<c-j> is <c-enter> actually
-""" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsJumpBackwardTrigger="<c-k>" "<NL> or <c-j> is <c-enter> actually
+" If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 function! g:UltiSnips_Complete()
 	if pumvisible()
 		return "\<c-n>"
 	else
-		call UltiSnips#ExpandSnippet()
-		if g:ulti_expand_res == 0
-			call UltiSnips#JumpForwards()
-			if g:ulti_jump_forwards_res == 0
-				return "\<tab>"
-			endif
+		call UltiSnips#ExpandSnippetOrJump()
+		if g:ulti_expand_or_jump_res == 0
+			return "\<tab>"
 		endif
 	endif
 	return ""
@@ -148,14 +150,9 @@ autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <
 
 function! g:UltiSnips_Expand()
 	if pumvisible()
-		call UltiSnips#ExpandSnippet()
-		if g:ulti_expand_res == 0
-			call UltiSnips#JumpForwards()
-			if g:ulti_jump_forwards_res == 0
-				if pumvisible()
-					return "\<c-y>"
-				endif
-			endif
+		call UltiSnips#ExpandSnippetOrJump()
+		if g:ulti_expand_or_jump_res == 0
+			return "\<c-e>"
 		endif
 		return ""
 	else
@@ -163,12 +160,6 @@ function! g:UltiSnips_Expand()
 	endif
 endfunction
 inoremap <silent> <CR> <C-R>=g:UltiSnips_Expand()<cr>
-
-let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item
-" and close the selection list, same as other IDEs.
-" CONFLICT with some plugins like tpope/Endwise
-"inoremap <expr> <CR> pumvisible() ? "<Esc>\<c-y>" : "\<C-g>u\<CR>"
 
 " quickfix
 noremap <silent> <F10> <Esc>:cprevious<CR>
@@ -182,7 +173,7 @@ endif
 let g:ack_autoclose = 0
 
 " fzf
-nnoremap <leader>ff :Files<CR>
+nnoremap <leader>f :Files<CR>
 
 " NERD
 noremap <silent> <F6> :NERDTreeToggle<CR>
@@ -238,6 +229,7 @@ let g:autoclose_vim_commentmode = 1
 let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
 let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
 let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+let g:ConqueGdb_Leader = "<leader>g"
 
 " vimtex
 let g:vimtex_view_general_viewer = 'okular'
