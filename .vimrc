@@ -2,8 +2,14 @@
 call plug#begin('~/.vim/bundle')
 
 " Make sure you use single quotes
+function! Cond(cond, ...)
+	let opts = get(a:000, 0, {})
+	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+Plug 'roxma/nvim-completion-manager', Cond(has('nvim'))
+" Plug 'Shougo/deoplete.nvim', Cond(has('nvim'))
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': './install.py --clang-completer' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
@@ -25,6 +31,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align',  { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'tpope/vim-fugitive'
+Plug 'AndrewRadev/linediff.vim'
 
 "Plug 'godlygeek/csapprox' "for color
 "Plug 'jellybeans.vim'
@@ -35,6 +42,7 @@ Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
+" Plug 'critiqjo/lldb.nvim'
 
 " Initialize plugin system
 call plug#end()
@@ -46,6 +54,7 @@ set termguicolors
 set confirm
 set autoindent
 set cindent
+set smartindent
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -55,7 +64,6 @@ set noswapfile
 set ignorecase
 set hlsearch
 set incsearch
-set smartindent
 set backspace=indent,eol,start
 set showcmd
 set foldmethod=marker
@@ -85,17 +93,27 @@ nnoremap <silent> <c-h> <c-w>h
 nnoremap <silent> <c-j> <c-w>j
 nnoremap <silent> <c-k> <c-w>k
 nnoremap <silent> <c-l> <c-w>l
-nnoremap <silent> = :vertical resize +5<CR>
-nnoremap <silent> - :vertical resize -5<CR>
-nnoremap <silent> <leader>= :resize +5<CR>
-nnoremap <silent> <leader>- :resize -5<CR>
+nnoremap <silent> = :vertical resize +5<cr>
+nnoremap <silent> - :vertical resize -5<cr>
+nnoremap <silent> <leader>= :resize +5<cr>
+nnoremap <silent> <leader>- :resize -5<cr>
 
 nnoremap <leader>w :update<cr>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
-nnoremap <leader>p :set paste<cr>
+set pastetoggle=<F9>
+nnoremap <leader>p :set paste<cr>a
 au InsertLeave * silent! set nopaste
+
+" cop to toggle paste
+function! s:map_change_option(...)
+  let [key, opt] = a:000[0:1]
+  let op = get(a:, 3, 'set '.opt.'!')
+  execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
+endfunction
+
+call s:map_change_option('p', 'paste')
 
 nnoremap zf zfa{ za
 
@@ -109,6 +127,12 @@ function! s:zoom()
 	endif
 endfunction
 nnoremap <silent> <leader>z :call <sid>zoom()<cr>
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" nvim-completion-manager
+let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'}
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -208,7 +232,12 @@ let g:sneak#s_next = 1
 " airline
 "set t_Co=256
 set laststatus=2 "show status line even when only single window is opened
-let g:airline#extensions#whitespace = 0
+" let g:airline#extensions#whitespace = 0
+" let g:airline#extensions#tagbar#enabled = 0
+
+" tcomment
+" let g:tcomment#options_comments={'whitespace': 'left'}
+" let g:tcomment#options_commentstring={'whitespace': 'left'}
 
 " tagbar
 noremap <silent> <F7> :TagbarToggle<CR>
@@ -235,11 +264,14 @@ let g:ConqueGdb_Leader = "<leader>g"
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_quickfix_ignored_warnings = [
-			\ 'Underfull',
-			\ 'Overfull',
-			\ 'specifier changed to',
-			\ ]
+let g:vimtex_quickfix_warnings = {                                                                                                         
+			\ 'overfull' : 0,
+			\ 'underfull' : 0,
+			\ 'packages' : {
+			\   'default' : 0,
+			\ },
+			\}
+
 
 " csapprox
 " IMPORTANT: Uncomment one of the following lines to force
