@@ -88,10 +88,15 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vim='vim --servername vim'
+alias vim='vim --servername gdb'
+# alias nv="nvim"
+alias nv="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim"
 export TERM="xterm-256color"
 alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 alias ll='ls -alF'
 alias l='ls'
-alias jabref='java -jar ~/jabref/JabRef-3.8.2.jar'
+alias jabref='java -jar ~/jabref/JabRef-3.8.1.jar'
+alias em='emacsclient -t -a ""'
+alias lldb='lldb-3.7'
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
