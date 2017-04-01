@@ -7,8 +7,7 @@ function! Cond(cond, ...)
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
 Plug 'roxma/nvim-completion-manager', Cond(has('nvim'))
-" Plug 'Shougo/deoplete.nvim', Cond(has('nvim'))
-
+" Plug 'Shougo/deoplete.nvim', Cond(has('nvim'), { 'do': ':UpdateRemotePlugins' })
 Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': './install.py --clang-completer' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
@@ -42,7 +41,7 @@ Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
-" Plug 'critiqjo/lldb.nvim'
+" Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Initialize plugin system
 call plug#end()
@@ -108,9 +107,9 @@ au InsertLeave * silent! set nopaste
 
 " cop to toggle paste
 function! s:map_change_option(...)
-  let [key, opt] = a:000[0:1]
-  let op = get(a:, 3, 'set '.opt.'!')
-  execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
+	let [key, opt] = a:000[0:1]
+	let op = get(a:, 3, 'set '.opt.'!')
+	execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
 endfunction
 
 call s:map_change_option('p', 'paste')
@@ -264,7 +263,7 @@ let g:ConqueGdb_Leader = "<leader>g"
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_quickfix_warnings = {                                                                                                         
+let g:vimtex_quickfix_warnings = {
 			\ 'overfull' : 0,
 			\ 'underfull' : 0,
 			\ 'packages' : {
