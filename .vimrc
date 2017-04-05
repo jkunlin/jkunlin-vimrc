@@ -47,7 +47,8 @@ Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 call plug#end()
 
 set number
-set relativenumber
+" set relativenumber
+set lazyredraw
 syntax enable
 set termguicolors
 set confirm
@@ -62,12 +63,18 @@ set smarttab
 set noswapfile
 set ignorecase
 set hlsearch
+set smartcase
 set incsearch
 set backspace=indent,eol,start
 set showcmd
+set wildmenu
+set ttimeout
+set ttimeoutlen=100
 set foldmethod=marker
 set foldlevel=100
 set completeopt=longest,menu
+set scrolloff=1
+set autoread
 set cursorline
 
 inoremap <silent> jk <esc>
@@ -113,6 +120,7 @@ function! s:map_change_option(...)
 endfunction
 
 call s:map_change_option('p', 'paste')
+call s:map_change_option('r', 'relativenumber')
 
 nnoremap zf zfa{ za
 
