@@ -42,6 +42,7 @@ Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'huawenyu/neogdb.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -79,6 +80,7 @@ set cursorline
 
 inoremap <silent> jk <esc>
 cnoremap <silent> jk <c-c>
+tnoremap <silent> jk <c-\><c-n>
 xnoremap <silent> v <c-c>
 let mapleader = "\<space>"
 
@@ -140,6 +142,13 @@ let g:deoplete#enable_at_startup = 1
 
 " nvim-completion-manager
 let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'}
+function! Multiple_cursors_before()
+	call cm#disable_for_buffer()
+endfunction
+
+function! Multiple_cursors_after()
+	call cm#enable_for_buffer()
+endfunction
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
@@ -329,3 +338,11 @@ call textobj#user#plugin('number', {
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
 
 command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
+
+" lldb
+nnoremap <leader><cr> :LL<space>
+nmap <M-b> <Plug>LLBreakSwitch
+nmap <M-n> :LL next<cr>
+nmap <M-c> :LL continue<cr>
+nnoremap <F5> :LLmode debug<cr>
+nnoremap <leader><F5> :LLmode code<cr>
