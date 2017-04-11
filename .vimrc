@@ -42,7 +42,7 @@ Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'huawenyu/neogdb.vim'
+Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
 
 " Initialize plugin system
 call plug#end()
@@ -340,9 +340,15 @@ call textobj#user#plugin('number', {
 command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
 
 " lldb
-nnoremap <leader><cr> :LL<space>
-nmap <M-b> <Plug>LLBreakSwitch
-nmap <M-n> :LL next<cr>
-nmap <M-c> :LL continue<cr>
-nnoremap <F5> :LLmode debug<cr>
-nnoremap <leader><F5> :LLmode code<cr>
+" nnoremap <leader><cr> :LL<space>
+" nmap <M-b> <Plug>LLBreakSwitch
+" nmap <M-n> :LL next<cr>
+" nmap <M-c> :LL continue<cr>
+" nnoremap <F5> :LLmode debug<cr>
+" nnoremap <leader><F5> :LLmode code<cr>
+
+" neogdb
+nmap <M-b> :GdbToggleBreak<cr>
+nmap <M-n> :GdbNext<cr>
+nmap <M-c> :GdbContinue<cr>
+command -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
