@@ -110,6 +110,7 @@ nnoremap <leader>w :update<cr>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
+nnoremap <leader>c :cclose<bar>lclose<cr>
 set pastetoggle=<F9>
 nnoremap <leader>p :set paste<cr>a
 au InsertLeave * silent! set nopaste
