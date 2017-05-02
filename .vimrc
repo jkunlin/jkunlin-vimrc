@@ -80,7 +80,9 @@ set cursorline
 
 inoremap <silent> jk <esc>
 cnoremap <silent> jk <c-c>
-tnoremap <silent> jk <c-\><c-n>
+if (has('nvim'))
+	tnoremap <silent> jk <c-\><c-n>
+endif
 xnoremap <silent> v <c-c>
 let mapleader = "\<space>"
 
