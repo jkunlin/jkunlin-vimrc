@@ -6,14 +6,15 @@ function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
-Plug 'roxma/nvim-completion-manager', Cond(has('nvim'))
-" Plug 'Shougo/deoplete.nvim', Cond(has('nvim'), { 'do': ':UpdateRemotePlugins' })
+Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp'))
+" Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp'), { 'do': ':UpdateRemotePlugins' })
 Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': './install.py --clang-completer' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
+" Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'justinmk/vim-sneak'
 " Plug 'Lokaltog/vim-easymotion'
@@ -323,6 +324,11 @@ autocmd fileType plaintex,tex let b:surround_{char2nr('b')} = "\\textbf{\r}"
 autocmd fileType plaintex,tex let b:surround_{char2nr('i')} = "\\textit{\r}"
 autocmd fileType plaintex,tex let b:surround_{char2nr('$')} = "$\r$"
 autocmd fileType plaintex,tex let g:surround_{char2nr('c')} = "\\\1command\1{\r}"
+
+" vim-easy-align
+let g:easy_align_delimiters = {
+\  't': { 'pattern': '\t',  'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 }
+\}
 
 " vim-textobj-user
 let g:textobj_numeral_pattern = '\%(\<[[:digit:]]\+\%(\.[[:digit:]]\+\)\=\%([Ee][[:digit:]]\+\)\=\>\|\<0[xXbBoOdD][[:xdigit:]]\+\>\)'
