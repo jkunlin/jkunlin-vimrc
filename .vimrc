@@ -14,6 +14,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
+Plug 'roxma/vim-paste-easy'
 " Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'justinmk/vim-sneak'
@@ -114,18 +115,14 @@ nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
 nnoremap <leader>c :cclose<bar>lclose<cr>
-set pastetoggle=<F9>
-nnoremap <leader>p :set paste<cr>a
-au InsertLeave * silent! set nopaste
 
-" cop to toggle paste
+" cop to toggle setting
 function! s:map_change_option(...)
 	let [key, opt] = a:000[0:1]
 	let op = get(a:, 3, 'set '.opt.'!')
 	execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
 endfunction
 
-call s:map_change_option('p', 'paste')
 call s:map_change_option('r', 'relativenumber')
 
 nnoremap zf zfa{ za
@@ -302,7 +299,7 @@ let g:vimtex_quickfix_warnings = {
 " let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
 
 " gruvbox
-let g:gruvbox_italic=0
+let g:gruvbox_italic=1
 colorscheme gruvbox
 set background=dark
 
@@ -360,4 +357,4 @@ command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | Conque
 nmap <M-b> :GdbToggleBreak<cr>
 nmap <M-n> :GdbNext<cr>
 nmap <M-c> :GdbContinue<cr>
-command -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
+command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
