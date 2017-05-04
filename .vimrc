@@ -143,13 +143,6 @@ let g:deoplete#enable_at_startup = 1
 
 " nvim-completion-manager
 let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'}
-function! Multiple_cursors_before()
-	call cm#disable_for_buffer()
-endfunction
-
-function! Multiple_cursors_after()
-	call cm#enable_for_buffer()
-endfunction
 
 " YCM
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
