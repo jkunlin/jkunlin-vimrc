@@ -14,7 +14,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
-Plug 'roxma/vim-paste-easy'
+" Plug 'ConradIrwin/vim-bracketed-paste'
 " Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'justinmk/vim-sneak'

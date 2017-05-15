@@ -1,11 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_cnt =2
 let g:netrw_dirhist_1='/home/pkutcs/.vim'
-let g:netrw_dirhist_2='/home/pkutcs/color/tmp5-informs/snap'
-let g:netrw_dirhist_3='/home/pkutcs/color/rossi/recolor'
-let g:netrw_dirhist_4='/home/pkutcs/.vim'
-let g:netrw_dirhist_5='/home/pkutcs/.vim/bundle/vimtex/autoload/vimtex'
-let g:netrw_dirhist_6='/home/pkutcs/Desktop'
-let g:netrw_dirhist_7='/home/pkutcs/.vim'
-let g:netrw_dirhist_8='/home/pkutcs/.vim/bundle/vimtex/autoload/vimtex'
-let g:netrw_dirhist_9='/home/pkutcs/color_clq/old_results'
+let g:netrw_dirhist_2='/home/pkutcs/.config/alacritty'
