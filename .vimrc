@@ -6,14 +6,16 @@ function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
-Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp'))
-" Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp'), { 'do': ':UpdateRemotePlugins' })
-Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp'], 'do': './install.py --clang-completer' }
+Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'))
+" Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
+Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex'], 'do': './install.py --clang-completer' }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
+Plug 'rhysd/vim-grammarous'
+Plug 'reedes/vim-lexical'
 " Plug 'ConradIrwin/vim-bracketed-paste'
 " Plug 'junegunn/rainbow_parentheses.vim'
 
@@ -33,6 +35,8 @@ Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align',  { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'tpope/vim-fugitive'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'airblade/vim-gitgutter'
 
 "Plug 'godlygeek/csapprox' "for color
 "Plug 'jellybeans.vim'
@@ -42,7 +46,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'Konfekt/FastFold' "make fold fast
 Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
-Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
+" Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
 
@@ -51,7 +55,7 @@ call plug#end()
 
 set number
 " set relativenumber
-set lazyredraw
+" set lazyredraw
 syntax enable
 set termguicolors
 set confirm
@@ -265,10 +269,12 @@ augroup END
 let g:autoclose_vim_commentmode = 1
 
 " Conque-GDB
-let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
-let g:ConqueGdb_Leader = "<leader>g"
+" let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+" let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+" let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+" let g:ConqueGdb_Leader = "<leader>g"
+" command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
+
 
 " vimtex
 let g:vimtex_view_general_viewer = 'okular'
@@ -281,7 +287,23 @@ let g:vimtex_quickfix_warnings = {
 			\   'default' : 0,
 			\ },
 			\}
-
+if !exists('g:ycm_semantic_triggers')
+	let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = [
+			\ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
+			\ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+			\ 're!\\hyperref\[[^]]*',
+			\ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+			\ 're!\\(include(only)?|input){[^}]*',
+			\ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+			\ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+			\ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
+			\ 're!\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
+			\ 're!\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
+			\ 're!\\[A-Za-z]*',
+			\ ]
+let g:vimtex_compiler_progname='nvr'
 
 " csapprox
 " IMPORTANT: Uncomment one of the following lines to force
@@ -336,8 +358,6 @@ call textobj#user#plugin('number', {
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
 
-command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
-
 " lldb
 " nnoremap <leader><cr> :LL<space>
 " nmap <M-b> <Plug>LLBreakSwitch
@@ -351,3 +371,29 @@ nmap <M-b> :GdbToggleBreak<cr>
 nmap <M-n> :GdbNext<cr>
 nmap <M-c> :GdbContinue<cr>
 command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
+
+" vim-grammarous
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer>gn <Plug>(grammarous-move-to-next-error)
+    nmap <buffer>gp <Plug>(grammarous-move-to-previous-error)
+	nmap <buffer>gf <Plug>(grammarous-fixit)
+endfunction
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer>gn
+    nunmap <buffer>gp
+    nunmap <buffer>gf
+endfunction
+
+" vim-lexical
+augroup lexical
+  autocmd!
+  autocmd FileType text call lexical#init()
+  autocmd FileType plaintex,tex call lexical#init()
+augroup END
+let g:lexical#spell_key = '<leader>s'
+
+" vim-diff-enhanced
+if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
