@@ -304,12 +304,10 @@ let g:autoclose_vim_commentmode = 1
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_quickfix_warnings = {
+let g:vimtex_quickfix_latexlog = {
 			\ 'overfull' : 0,
 			\ 'underfull' : 0,
-			\ 'packages' : {
-			\   'default' : 0,
-			\ },
+			\ 'font' : 0,
 			\}
 if !exists('g:ycm_semantic_triggers')
 	let g:ycm_semantic_triggers = {}
