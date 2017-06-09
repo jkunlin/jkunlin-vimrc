@@ -1,6 +1,11 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/bundle')
 
+function! BuildYCM(info)
+	if a:info.status == 'installed' || a:info.force
+		!./install.py --clang-completer
+	endif
+endfunction
 " Make sure you use single quotes
 function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
@@ -8,7 +13,7 @@ function! Cond(cond, ...)
 endfunction
 Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'))
 " Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
-Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex'], 'do': './install.py --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex'], 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
@@ -118,7 +123,26 @@ nnoremap <leader>w :update<cr>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
+" ----------------------------------------------------------------------------
+" Quickfix
+" ----------------------------------------------------------------------------
 nnoremap <leader>c :cclose<bar>lclose<cr>
+nnoremap ]q :cnext<cr>zz
+nnoremap [q :cprev<cr>zz
+nnoremap ]l :lnext<cr>zz
+nnoremap [l :lprev<cr>zz
+
+" ----------------------------------------------------------------------------
+" Buffers
+" ----------------------------------------------------------------------------
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+
+" ----------------------------------------------------------------------------
+" Tabs
+" ----------------------------------------------------------------------------
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
 
 " cop to toggle setting
 function! s:map_change_option(...)
@@ -375,25 +399,25 @@ command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal 
 " vim-grammarous
 let g:grammarous#hooks = {}
 function! g:grammarous#hooks.on_check(errs) abort
-    nmap <buffer>gn <Plug>(grammarous-move-to-next-error)
-    nmap <buffer>gp <Plug>(grammarous-move-to-previous-error)
+	nmap <buffer>gn <Plug>(grammarous-move-to-next-error)
+	nmap <buffer>gp <Plug>(grammarous-move-to-previous-error)
 	nmap <buffer>gf <Plug>(grammarous-fixit)
 endfunction
 function! g:grammarous#hooks.on_reset(errs) abort
-    nunmap <buffer>gn
-    nunmap <buffer>gp
-    nunmap <buffer>gf
+	nunmap <buffer>gn
+	nunmap <buffer>gp
+	nunmap <buffer>gf
 endfunction
 
 " vim-lexical
 augroup lexical
-  autocmd!
-  autocmd FileType text call lexical#init()
-  autocmd FileType plaintex,tex call lexical#init()
+	autocmd!
+	autocmd FileType text call lexical#init()
+	autocmd FileType plaintex,tex call lexical#init()
 augroup END
 let g:lexical#spell_key = '<leader>s'
 
 " vim-diff-enhanced
 if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+	let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
