@@ -32,12 +32,14 @@ Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
-Plug 'spf13/vim-autoclose'
+" Plug 'spf13/vim-autoclose'
+Plug 'jiangmiao/auto-pairs'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
 Plug 'kana/vim-textobj-user'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align',  { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'dhruvasagar/vim-table-mode'
 Plug 'tpope/vim-fugitive'
 Plug 'AndrewRadev/linediff.vim'
 Plug 'chrisbra/vim-diff-enhanced'
@@ -100,8 +102,13 @@ let mapleader = "\<space>"
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
 
-" autocmd filetype plaintex,tex :setlocal colorcolumn=80 formatoptions=tcq textwidth=80
-autocmd filetype plaintex,tex :setlocal colorcolumn=80
+augroup latex
+	autocmd!
+	autocmd filetype plaintex,tex setlocal colorcolumn=80
+				\ tabstop=2
+				\ shiftwidth=2
+				\ softtabstop=2
+augroup end 
 
 " Treat long lines as break lines
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -419,3 +426,10 @@ let g:lexical#spell_key = '<leader>s'
 if &diff
 	let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
+nnoremap <silent> <leader>g :!neato -Teps -o %:r.eps %<cr><cr>
+
+" auto-pairs
+augroup auto-pairs
+	autocmd!
+	autocmd FileType plaintex,tex let g:AutoPairs['$']='$'
+augroup END
