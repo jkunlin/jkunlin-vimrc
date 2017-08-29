@@ -11,9 +11,9 @@ function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
-Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'))
+Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex\|python'))
 " Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
-Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex'], 'do': function('BuildYCM') }
+Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python'], 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
@@ -62,7 +62,7 @@ call plug#end()
 
 set number
 " set relativenumber
-" set lazyredraw
+set lazyredraw
 syntax enable
 set termguicolors
 set confirm
@@ -108,7 +108,7 @@ augroup latex
 				\ tabstop=2
 				\ shiftwidth=2
 				\ softtabstop=2
-augroup end 
+augroup end
 
 " Treat long lines as break lines
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -221,11 +221,11 @@ function! g:UltiSnips_Expand()
 	if pumvisible()
 		call UltiSnips#ExpandSnippetOrJump()
 		if g:ulti_expand_or_jump_res == 0
-			return "\<c-e>"
+			return "\<c-y>\<cr>"
 		endif
 		return ""
 	else
-		return "\<c-g>u\<CR>"
+		return "\<cr>"
 	endif
 endfunction
 inoremap <silent> <CR> <C-R>=g:UltiSnips_Expand()<cr>
@@ -433,3 +433,7 @@ augroup auto-pairs
 	autocmd!
 	autocmd FileType plaintex,tex let g:AutoPairs['$']='$'
 augroup END
+
+" python
+autocmd FileType python nnoremap <Leader>i :!isort %<CR><CR>
+autocmd FileType python vnoremap = :!yapf<CR>
