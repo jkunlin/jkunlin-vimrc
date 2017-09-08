@@ -11,9 +11,9 @@ function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
-Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex\|python'))
+" Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex\|python'))
 " Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
-Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python'], 'do': function('BuildYCM') }
+Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
@@ -55,7 +55,8 @@ Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 " Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
+" Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
+Plug 'sakhnik/nvim-gdb', { 'on': [] }
 
 " Initialize plugin system
 call plug#end()
@@ -293,7 +294,6 @@ augroup unmap_space
 	autocmd!
 	autocmd vimEnter * iunmap <leader>ihn
 	autocmd vimEnter * iunmap <leader>ih
-	autocmd vimEnter * iunmap <leader>is
 augroup END
 
 " vim-autoclose
@@ -396,10 +396,13 @@ call textobj#user#plugin('number', {
 " nnoremap <leader><F5> :LLmode code<cr>
 
 " neogdb
-nmap <M-b> :GdbToggleBreak<cr>
-nmap <M-n> :GdbNext<cr>
-nmap <M-c> :GdbContinue<cr>
-command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
+" nmap <M-b> :GdbToggleBreak<cr>
+" nmap <M-n> :GdbNext<cr>
+" nmap <M-c> :GdbContinue<cr>
+" command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
+
+" nvim-gdb
+command! -complete=file -nargs=1 Gdb call plug#load('nvim-gdb') | GdbStart gdb -q -f <args>
 
 " vim-grammarous
 let g:grammarous#hooks = {}
