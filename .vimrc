@@ -24,8 +24,8 @@ Plug 'reedes/vim-lexical'
 " Plug 'ConradIrwin/vim-bracketed-paste'
 " Plug 'junegunn/rainbow_parentheses.vim'
 
-Plug 'justinmk/vim-sneak'
-" Plug 'Lokaltog/vim-easymotion'
+" Plug 'justinmk/vim-sneak'
+Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
@@ -115,7 +115,7 @@ augroup end
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 " Disable highlight when <leader><CR>
-noremap <silent> <leader>h :noh<CR>
+noremap <silent> <leader>hc :noh<CR>
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
 nnoremap <silent> <c-h> <c-w>h
@@ -265,12 +265,12 @@ let g:NERDTreeIndicatorMapCustom = {
 			\ }
 
 " easy-motion
-" map <Leader> <Plug>(easymotion-prefix)
-" map <silent> <Leader>l <Plug>(easymotion-lineforward)
-" map <silent> <Leader>j <Plug>(easymotion-j)
-" map <silent> <Leader>k <Plug>(easymotion-k)
-" map <silent> <Leader>h <Plug>(easymotion-linebackward)
-" let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
+map <Leader> <Plug>(easymotion-prefix)
+map <silent> <Leader>ml <Plug>(easymotion-lineforward)
+map <silent> <Leader>mj <Plug>(easymotion-j)
+map <silent> <Leader>mk <Plug>(easymotion-k)
+map <silent> <Leader>mh <Plug>(easymotion-linebackward)
+let g:EasyMotion_startofline = 0 " Keep cursor colum when JK motion
 
 " vim-sneak
 let g:sneak#s_next = 1
