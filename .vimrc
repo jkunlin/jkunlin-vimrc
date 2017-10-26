@@ -13,8 +13,10 @@ function! Cond(cond, ...)
 endfunction
 " Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex\|python'))
 " Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
-Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
+" Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'w0rp/ale', { 'for': ['sh']} "apt-get install shellcheck
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
@@ -57,6 +59,8 @@ Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --serverna
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
 Plug 'sakhnik/nvim-gdb', { 'on': [] }
+" Plug 'myusuf3/numbers.vim'
+" Plug 'simeji/winresizer'
 
 " Initialize plugin system
 call plug#end()
@@ -294,6 +298,7 @@ augroup unmap_space
 	autocmd!
 	autocmd vimEnter * iunmap <leader>ihn
 	autocmd vimEnter * iunmap <leader>ih
+	autocmd vimEnter * iunmap <leader>is
 augroup END
 
 " vim-autoclose
