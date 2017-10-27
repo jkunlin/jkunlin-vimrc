@@ -32,6 +32,7 @@ Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/matchit.zip'
+Plug 'vim-ctrlspace/vim-ctrlspace'
 
 Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
 " Plug 'spf13/vim-autoclose'
@@ -95,6 +96,7 @@ set completeopt=longest,menu
 set scrolloff=1
 set autoread
 set cursorline
+set hidden
 
 inoremap <silent> jk <esc>
 cnoremap <silent> jk <c-c>
@@ -248,6 +250,16 @@ let g:ack_autoclose = 0
 
 " fzf
 nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+
+" vim-ctrlspace
+if executable("ag")
+    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+endif
+let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
+let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+let g:CtrlSpaceSaveWorkspaceOnExit = 1
+nnoremap <leader>s :CtrlSpace<cr>
 
 " NERD
 noremap <silent> <F6> :NERDTreeToggle<CR>
