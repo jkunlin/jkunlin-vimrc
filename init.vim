@@ -1,1 +1,0 @@
-/home/pkutcs/.vimrc

@@ -29,7 +29,7 @@ Plug 'reedes/vim-lexical'
 " Plug 'justinmk/vim-sneak'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
 Plug 'vim-scripts/matchit.zip'
 Plug 'vim-ctrlspace/vim-ctrlspace'
@@ -62,6 +62,8 @@ Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --serverna
 Plug 'sakhnik/nvim-gdb', { 'on': [] }
 " Plug 'myusuf3/numbers.vim'
 " Plug 'simeji/winresizer'
+Plug 'mhinz/vim-startify'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Initialize plugin system
 call plug#end()
@@ -124,10 +126,10 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 noremap <silent> <leader>hc :noh<CR>
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkgray guifg=white
 " switch between windows
-nnoremap <silent> <c-h> <c-w>h
-nnoremap <silent> <c-j> <c-w>j
-nnoremap <silent> <c-k> <c-w>k
-nnoremap <silent> <c-l> <c-w>l
+" nnoremap <silent> <c-h> <c-w>h
+" nnoremap <silent> <c-j> <c-w>j
+" nnoremap <silent> <c-k> <c-w>k
+" nnoremap <silent> <c-l> <c-w>l
 nnoremap <silent> = :vertical resize +5<cr>
 nnoremap <silent> - :vertical resize -5<cr>
 nnoremap <silent> <leader>= :resize +5<cr>
@@ -251,6 +253,20 @@ let g:ack_autoclose = 0
 " fzf
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 " vim-ctrlspace
 if executable("ag")
@@ -457,3 +473,16 @@ augroup END
 " python
 autocmd FileType python nnoremap <Leader>i :!isort %<CR><CR>
 autocmd FileType python vnoremap = :!yapf<CR>
+
+
+" vim-startify
+let g:startify_files_number=5
+let g:startify_files_number=5
+let g:startify_list_order = [
+			\ ["   MRU " . getcwd()],
+			\ 'dir',
+			\ ['   MRU'],
+			\ 'files',
+			\ ['   sessions:'],
+			\ 'sessions',
+			\ ]

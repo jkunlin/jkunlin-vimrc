@@ -1,12 +1,13 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$HOME/texlive2017/2017/bin/x86_64-linux:$PATH
+
 
 export JAVA_HOME=~/jdk1.8.0_121
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/pkutcs/.oh-my-zsh
+export ZSH=/home/jkunlin/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -55,9 +56,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-. /usr/share/autojump/autojump.sh
-
+plugins=(git z)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -88,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vim='vim --servername gdb'
+# alias vim='vim --servername gdb'
 alias nv="nvim"
 # alias nv="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim"
 # export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
@@ -100,3 +99,21 @@ alias l='ls'
 alias jabref='java -jar ~/jabref/JabRef-3.8.1.jar'
 alias em='emacsclient -t -a ""'
 alias lldb='lldb-3.8'
+
+unalias z
+z() {
+  if [[ -z "$*" ]]; then
+    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+  else
+    _last_z_args="$@"
+    _z "$@"
+  fi
+}
+
+zz() {
+  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
+}
+alias j=z
+alias jj=zz
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

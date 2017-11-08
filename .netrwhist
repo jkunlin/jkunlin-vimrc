@@ -1,8 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/home/pkutcs/.vim'
 let g:netrw_dirhist_2='/home/pkutcs/.config/alacritty'
 let g:netrw_dirhist_3='/home/pkutcs/tmp'
 let g:netrw_dirhist_4='/home/pkutcs/ijcai17-color/tmp'
 let g:netrw_dirhist_5='/home/pkutcs/.vim'
 let g:netrw_dirhist_6='/home/pkutcs/.config/QtProject'
+let g:netrw_dirhist_7='/home/jkunlin/mcq/static/include_init_time/latex/tmp'
+let g:netrw_dirhist_8='/home/jkunlin/.oh-my-zsh'
+let g:netrw_dirhist_9='/home/jkunlin/.vim'
