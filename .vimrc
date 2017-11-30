@@ -64,6 +64,7 @@ Plug 'sakhnik/nvim-gdb', { 'on': [] }
 " Plug 'simeji/winresizer'
 Plug 'mhinz/vim-startify'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 
 " Initialize plugin system
 call plug#end()

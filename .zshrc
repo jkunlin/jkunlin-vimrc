@@ -72,6 +72,8 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR='nvim'
+source /var/lib/gems/2.3.0/gems/tmuxinator-0.10.0/completion/tmuxinator.zsh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
