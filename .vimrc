@@ -65,6 +65,8 @@ Plug 'sakhnik/nvim-gdb', { 'on': [] }
 Plug 'mhinz/vim-startify'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" Plug 'yuttie/hydrangea-vim'
+Plug 't9md/vim-choosewin'
 
 " Initialize plugin system
 call plug#end()
@@ -254,6 +256,10 @@ let g:ack_autoclose = 0
 " fzf
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-i': 'split',
+  \ 'ctrl-s': 'vsplit' }
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -487,3 +493,7 @@ let g:startify_list_order = [
 			\ ['   sessions:'],
 			\ 'sessions',
 			\ ]
+
+" t9md/vim-choosewin
+nmap  <c-w>  <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1

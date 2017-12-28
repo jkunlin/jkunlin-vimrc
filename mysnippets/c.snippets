@@ -22,3 +22,9 @@ snippet debug "ifndef DEBUG"
 $0
 #endif
 endsnippet
+
+snippet forv "for each vertex"
+for (size_t v = 1; v < adjacency_list.size(); ++v) {
+	$0
+}
+endsnippet
