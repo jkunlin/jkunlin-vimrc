@@ -11,8 +11,8 @@ function! Cond(cond, ...)
 	let opts = get(a:000, 0, {})
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
-" Plug 'roxma/nvim-completion-manager', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex\|python'))
-" Plug 'Shougo/deoplete.nvim', Cond(has('nvim') && (&ft !~ 'c\|cpp\|tex'), { 'do': ':UpdateRemotePlugins' })
+" Plug 'roxma/nvim-completion-manager' | Plug 'roxma/ncm-clang'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'zchee/deoplete-clang'
 " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -53,8 +53,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-Plug 'Konfekt/FastFold' "make fold fast
-Plug 'gi1242/vim-tex-syntax' "make tex fast
+" Plug 'Konfekt/FastFold' "make fold fast
+" Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 " Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -66,7 +66,7 @@ Plug 'mhinz/vim-startify'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " Plug 'yuttie/hydrangea-vim'
-Plug 't9md/vim-choosewin'
+" Plug 't9md/vim-choosewin'
 
 " Initialize plugin system
 call plug#end()
@@ -142,6 +142,11 @@ nnoremap <leader>w :update<cr>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
+" Make Y behave like other capitals
+nnoremap Y y$
+
+" qq to record, Q to replay
+nnoremap Q @q
 " ----------------------------------------------------------------------------
 " Quickfix
 " ----------------------------------------------------------------------------
@@ -163,7 +168,26 @@ nnoremap [b :bprev<cr>
 nnoremap ]t :tabn<cr>
 nnoremap [t :tabp<cr>
 
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> | Circular windows navigation
+" ----------------------------------------------------------------------------
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+
+" ----------------------------------------------------------------------------
+" Help in new tabs
+" ----------------------------------------------------------------------------
+function! s:helptab()
+  if &buftype == 'help'
+    wincmd T
+    nnoremap <buffer> q :q<cr>
+  endif
+endfunction
+autocmd BufEnter *.txt call s:helptab()
+
+" ----------------------------------------------------------------------------
 " cop to toggle setting
+" ----------------------------------------------------------------------------
 function! s:map_change_option(...)
 	let [key, opt] = a:000[0:1]
 	let op = get(a:, 3, 'set '.opt.'!')
@@ -174,7 +198,9 @@ call s:map_change_option('r', 'relativenumber')
 
 nnoremap zf zfa{ za
 
+" ----------------------------------------------------------------------------
 " Zoom
+" ----------------------------------------------------------------------------
 function! s:zoom()
 	if winnr('$') > 1
 		tab split
@@ -187,6 +213,8 @@ nnoremap <silent> <leader>z :call <sid>zoom()<cr>
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#clang#libclang_path = "/usr/lib/llvm-3.8/lib/libclang.so.1"
+let g:deoplete#sources#clang#clang_header = "/usr/lib/llvm-3.8/lib/clang"
 
 " nvim-completion-manager
 let g:cm_matcher = {'module': 'cm_matchers.fuzzy_matcher', 'case': 'smartcase'}
@@ -495,5 +523,18 @@ let g:startify_list_order = [
 			\ ]
 
 " t9md/vim-choosewin
-nmap  <c-w>  <Plug>(choosewin)
-let g:choosewin_overlay_enable = 1
+" nmap  <c-w>  <Plug>(choosewin)
+" let g:choosewin_overlay_enable = 1
+
+" visual star
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  " Use this line instead of the above to match matches spanning across lines
+  "let @/ = '\V' . substitute(escape(@@, '\'), '\_s\+', '\\_s\\+', 'g')
+  call histadd('/', substitute(@/, '[?/]', '\="\\%d".char2nr(submatch(0))', 'g'))
+  let @@ = temp
+endfunction
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>

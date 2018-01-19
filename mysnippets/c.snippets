@@ -28,3 +28,103 @@ for (size_t v = 1; v < adjacency_list.size(); ++v) {
 	$0
 }
 endsnippet
+
+snippet read_graph "read graph fastly"
+vector<vector<int>> adjacency_list;
+
+// read graph file into adjacency_list
+void fast_read(string file_name) {
+	ifstream in_file(file_name);
+	if (!in_file) {
+		cout << "in_file error" << endl;
+		exit(1);
+	}
+	in_file.seekg (0, in_file.end);
+	size_t file_len = in_file.tellg();
+	in_file.seekg (0, in_file.beg);
+	char *data = new char [file_len];
+
+	in_file.read(data, file_len);
+	in_file.close();
+
+	data[file_len - 1] = '\0';
+
+	//skip comments
+	char *pos = data;
+	while (*pos == 'c') {
+		while(*(pos++) != '\n');
+	}
+
+	//read vertex_count
+	int vertex_count = 0, edge_count = 0;
+	while (*pos < '0' || *pos > '9') {
+		++pos;
+	}
+	while (*pos != ' ') {
+		vertex_count = vertex_count * 10 +  *pos - '0';
+		++pos;
+	}
+	//read edge_count
+	while (*pos < '0' || *pos > '9') {
+		++pos;
+	}
+	while (*pos >= '0' && *pos <= '9') {
+		edge_count = edge_count * 10 +  *pos - '0';
+		++pos;
+	}
+
+	//read adjacency_list
+	adjacency_list.resize(vertex_count + 1);
+
+	vector<int> vertex_degree(vertex_count + 1, 0);
+	char *stash_pos = pos;
+	int v1, v2;
+	for (int i = 0; i < edge_count && *pos != '\0'; ++i) {
+		v1 = v2 = 0;
+		//read v1
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos != ' ') {
+			v1 = v1 * 10 +  *pos - '0';
+			++pos;
+		}
+		//read v2
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos >= '0' && *pos <= '9') {
+			v2 = v2 * 10 +  *pos - '0';
+			++pos;
+		}
+		vertex_degree[v1]++;
+		vertex_degree[v2]++;
+	}
+	for (size_t v = 1; v < adjacency_list.size(); ++v) {
+		adjacency_list[v].reserve(vertex_degree[v]);
+	}
+	pos = stash_pos;
+	for (int i = 0; i < edge_count && *pos != '\0'; ++i) {
+		v1 = v2 = 0;
+		//read v1
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos != ' ') {
+			v1 = v1 * 10 +  *pos - '0';
+			++pos;
+		}
+		//read weight
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos >= '0' && *pos <= '9') {
+			v2 = v2 * 10 +  *pos - '0';
+			++pos;
+		}
+		adjacency_list[v1].push_back(v2);
+		adjacency_list[v2].push_back(v1);
+	}
+	delete[] data;
+}
+endsnippet

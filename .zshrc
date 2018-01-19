@@ -1,8 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$HOME/texlive2017/2017/bin/x86_64-linux:$PATH
 
-
-export JAVA_HOME=~/jdk1.8.0_121
+export JAVA_HOME=$HOME/jdk1.8.0_144
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
@@ -93,12 +92,10 @@ source /var/lib/gems/2.3.0/gems/tmuxinator-0.10.0/completion/tmuxinator.zsh
 alias nv="nvim"
 # alias nv="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim"
 # export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-export TERM="xterm-256color"
-alias tmux="env TERM=xterm-256color tmux"
 alias pymux="pymux --truecolor"
 alias ll='ls -alF'
 alias l='ls'
-alias jabref='java -jar ~/jabref/JabRef-3.8.1.jar'
+# alias jabref='java -jar ~/jabref/JabRef-3.8.1.jar'
 alias em='emacsclient -t -a ""'
 alias lldb='lldb-3.8'
 
