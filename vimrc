@@ -12,7 +12,7 @@ function! Cond(cond, ...)
 	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
 " Plug 'roxma/nvim-completion-manager' | Plug 'roxma/ncm-clang'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'zchee/deoplete-clang'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'zchee/deoplete-clang'
 " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -67,6 +67,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " Plug 'yuttie/hydrangea-vim'
 " Plug 't9md/vim-choosewin'
+" Plug 'zchee/clang-server'
+" Plug 'ajh17/VimCompletesMe'
 
 " Initialize plugin system
 call plug#end()
