@@ -128,3 +128,204 @@ void fast_read(string file_name) {
 	delete[] data;
 }
 endsnippet
+
+
+snippet read_wgraph "read weighted graph fastly"
+vector<vector<int>> adjacency_list;
+vector<vector<int>> adjacency_pos_list;
+vector<int> vertex_weight;
+
+//build adjacency_list
+void fast_build(string file_name) {
+	ifstream in_file(file_name);
+	if (!in_file) {
+		cout << "in_file error" << endl;
+		exit(1);
+	}
+	in_file.seekg (0, in_file.end);
+	size_t file_len = in_file.tellg();
+	in_file.seekg (0, in_file.beg);
+	char *data = new char [file_len];
+
+	in_file.read(data, file_len);
+	in_file.close();
+
+
+	//skip comments
+	char *pos = data;
+	while (*pos == '%') {
+		while(*(pos++) != '\n');
+	}
+
+	//read vertex_count
+	int vertex_count = 0, edge_count = 0;
+	while (*pos < '0' || *pos > '9') {
+		++pos;
+	}
+	while (*pos != ' ') {
+		vertex_count = vertex_count * 10 +  *pos - '0';
+		++pos;
+	}
+	//read edge_count
+	while (*pos < '0' || *pos > '9') {
+		++pos;
+	}
+	while (*pos >= '0' && *pos <= '9') {
+		edge_count = edge_count * 10 +  *pos - '0';
+		++pos;
+	}
+
+	//read vertex_weight
+	vertex_weight.resize(vertex_count + 1);
+	int v,w;
+	for(vector<vector<int>>::size_type i=1; i<vertex_weight.size(); ++i){
+		v = w = 0;
+		//read vertex
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos != ' ') {
+			v = v * 10 +  *pos - '0';
+			++pos;
+		}
+		//read weight
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos >= '0' && *pos <= '9') {
+			w = w * 10 +  *pos - '0';
+			++pos;
+		}
+		vertex_weight[v]=w;
+	}
+
+	//read adjacency_list
+	adjacency_list.resize(vertex_count + 1);
+	adjacency_pos_list.resize(vertex_count + 1);
+
+	vector<int> vertex_degree(vertex_count + 1, 0);
+	char *stash_pos = pos;
+	int v1, v2;
+	for (int i = 0; i < edge_count; ++i) {
+		v1 = v2 = 0;
+		//read v1
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos != ' ') {
+			v1 = v1 * 10 +  *pos - '0';
+			++pos;
+		}
+		//read v2
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos >= '0' && *pos <= '9') {
+			v2 = v2 * 10 +  *pos - '0';
+			++pos;
+		}
+		vertex_degree[v1]++;
+		vertex_degree[v2]++;
+	}
+	for (size_t v = 1; v < adjacency_list.size(); ++v) {
+		adjacency_list[v].resize(vertex_degree[v]);
+		adjacency_pos_list[v].resize(vertex_degree[v]);
+	}
+	pos = stash_pos;
+	for (int i = 0; i < edge_count; ++i) {
+		v1 = v2 = 0;
+		//read v1
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos != ' ') {
+			v1 = v1 * 10 +  *pos - '0';
+			++pos;
+		}
+		//read weight
+		while (*pos < '0' || *pos > '9') {
+			++pos;
+		}
+		while (*pos >= '0' && *pos <= '9') {
+			v2 = v2 * 10 +  *pos - '0';
+			++pos;
+		}
+		adjacency_list[v1][--vertex_degree[v1]] = v2;
+		adjacency_list[v2][--vertex_degree[v2]] = v1;
+		adjacency_pos_list[v1][vertex_degree[v1]] = vertex_degree[v2];
+		adjacency_pos_list[v2][vertex_degree[v2]] = vertex_degree[v1];
+	}
+	delete[] data;
+}
+endsnippet
+
+snippet kcore "kcore kcore_decomposition"
+vector<int> kcore_vertex;
+vector<size_t> index_in_kv;
+vector<int> core_num;
+void kcore_decomposition() {
+	kcore_vertex.clear(); kcore_vertex.reserve(adjacency_list.size() - 1);
+	core_num.resize(adjacency_list.size());
+	index_in_kv.resize(adjacency_list.size());
+
+	for (vector<vector<int>>::size_type v = 1; v < adjacency_list.size(); ++v) {
+		kcore_vertex.push_back(v);
+		core_num[v] = adjacency_list[v].size();
+	}
+
+	int max_degree = 0;
+	for (auto v : kcore_vertex) {
+		if (max_degree < core_num[v]) {
+			max_degree = core_num[v];
+		}
+	}
+	vector<size_t> bin_pos(max_degree + 1, 0);
+	for (auto v : kcore_vertex) {
+		bin_pos[core_num[v]]++;
+	}
+	//end position
+	for (size_t i = 1; i < bin_pos.size(); ++i) {
+		bin_pos[i] += bin_pos[i - 1];
+	}
+	//begin position
+	for (vector<int>::size_type v = 1; v <= kcore_vertex.size(); ++v) {
+		auto degree = core_num[v];
+		kcore_vertex[--bin_pos[degree]] = v;
+		//note: destroy consisdent
+		index_in_kv[v] = bin_pos[degree];
+	}
+
+	//core decomposition
+	for (vector<int>::size_type i = 0; i < kcore_vertex.size(); ++i) {
+		auto v = kcore_vertex[i];
+		//is it okay to break here?
+		if (core_num[v] == max_degree || bin_pos[core_num[v] + 1] == kcore_vertex.size()) {
+			break;
+		}
+		for (auto u : adjacency_list[v]) {
+			if (core_num[u] > core_num[v]) {
+				//exchange u and begin position
+				auto index_w = bin_pos[core_num[u]], index_u = index_in_kv[u];
+				auto w = kcore_vertex[index_w];
+				kcore_vertex[index_u] = w; kcore_vertex[index_w] = u;
+				index_in_kv[u] = index_w; index_in_kv[w] = index_u;
+				++bin_pos[core_num[u]]; --core_num[u];
+			}
+		}
+	}
+}
+endsnippet
+
+snippet get_time "get_time"
+#include <cmath>
+#include<sys/times.h>
+#include <unistd.h>
+tms start, finish;
+inline
+double get_time() {
+	times(&finish);
+	double res = double(finish.tms_utime - start.tms_utime + finish.tms_stime - start.tms_stime) / sysconf(_SC_CLK_TCK);
+	res = round(res * 100) / 100;
+	return res;
+}
+endsnippet

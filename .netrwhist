@@ -1,6 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/jkunlin/mcq/results/hao-jinkao/good_all_1000s_rets1_arch_total/bio'
-let g:netrw_dirhist_2='/home/jkunlin/tmp'
-let g:netrw_dirhist_3='/home/jkunlin/Downloads/1138_bus'
-let g:netrw_dirhist_4='/home/jkunlin/color/GraphColoring/Source'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/home/jkunlin/tmp'
