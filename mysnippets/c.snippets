@@ -329,3 +329,19 @@ double get_time() {
 	return res;
 }
 endsnippet
+
+snippet usage "usage"
+if (argc != $1) {
+	std::cout << "usgae: $2" << std::endl;
+	return 1;
+}
+$0
+endsnippet
+
+snippet file "check file open"
+if (!$1) {
+	std::cout << "$1 open error" << std::endl;
+	return 1;
+}
+$0
+endsnippet
