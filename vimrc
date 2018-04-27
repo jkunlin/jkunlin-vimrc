@@ -2,14 +2,14 @@
 call plug#begin('~/.vim/bundle')
 
 function! BuildYCM(info)
-	if a:info.status == 'installed' || a:info.force
-		!./install.py --clang-completer
-	endif
+  if a:info.status == 'installed' || a:info.force
+    !./install.py --clang-completer
+  endif
 endfunction
 " Make sure you use single quotes
 function! Cond(cond, ...)
-	let opts = get(a:000, 0, {})
-	return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
 " Plug 'roxma/nvim-completion-manager' | Plug 'roxma/ncm-clang'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'zchee/deoplete-clang'
@@ -79,6 +79,10 @@ Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 "   endif
 " endfunction
 " Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+" Plug 'svermeulen/vim-easyclip'
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'sbdchd/neoformat'
+" Plug 'justinmk/vim-dirvish'
 
 " Initialize plugin system
 call plug#end()
@@ -92,11 +96,12 @@ set confirm
 set autoindent
 set cindent
 set smartindent
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set noexpandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
 set smarttab
+set nojoinspaces
 set noswapfile
 set ignorecase
 set hlsearch
@@ -114,11 +119,17 @@ set scrolloff=1
 set autoread
 set cursorline
 set hidden
+set clipboard=unnamed
+
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 inoremap <silent> jk <esc>
 cnoremap <silent> jk <c-c>
 if (has('nvim'))
-	tnoremap <silent> jk <c-\><c-n>
+  tnoremap <silent> jk <c-\><c-n>
 endif
 xnoremap <silent> v <c-c>
 let mapleader = "\<space>"
@@ -127,11 +138,11 @@ let mapleader = "\<space>"
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
 
 augroup latex
-	autocmd!
-	autocmd filetype plaintex,tex setlocal colorcolumn=80
-				\ tabstop=2
-				\ shiftwidth=2
-				\ softtabstop=2
+  autocmd!
+  autocmd filetype plaintex,tex setlocal colorcolumn=80
+        \ tabstop=2
+        \ shiftwidth=2
+        \ softtabstop=2
 augroup end
 
 " Treat long lines as break lines
@@ -201,9 +212,9 @@ autocmd BufEnter *.txt call s:helptab()
 " cop to toggle setting
 " ----------------------------------------------------------------------------
 function! s:map_change_option(...)
-	let [key, opt] = a:000[0:1]
-	let op = get(a:, 3, 'set '.opt.'!')
-	execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
+  let [key, opt] = a:000[0:1]
+  let op = get(a:, 3, 'set '.opt.'!')
+  execute printf("nnoremap co%s :%s<bar>set %s?<cr>", key, op, opt)
 endfunction
 
 call s:map_change_option('r', 'relativenumber')
@@ -214,12 +225,12 @@ nnoremap zf zfa{ za
 " Zoom
 " ----------------------------------------------------------------------------
 function! s:zoom()
-	if winnr('$') > 1
-		tab split
-	elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
-				\ 'index(v:val, '.bufnr('').') >= 0')) > 1
-		tabclose
-	endif
+  if winnr('$') > 1
+    tab split
+  elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
+        \ 'index(v:val, '.bufnr('').') >= 0')) > 1
+    tabclose
+  endif
 endfunction
 nnoremap <silent> <leader>z :call <sid>zoom()<cr>
 
@@ -244,7 +255,7 @@ nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " ultisnip
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "mysnippets"]
 function! g:UltiSnipsDocComment() abort
-	execute "normal! idh" . "\<c-r>=UltiSnips#ExpandSnippet()\<CR>"
+  execute "normal! idh" . "\<c-r>=UltiSnips#ExpandSnippet()\<CR>"
 endfunction
 autocmd BufNewFile *{.c,.cpp,.cc,.h} silent! call g:UltiSnipsDocComment()
 
@@ -257,28 +268,28 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>" "<NL> or <c-j> is <c-enter> actually
 let g:UltiSnipsEditSplit="vertical"
 
 function! g:UltiSnips_Complete()
-	if pumvisible()
-		return "\<c-n>"
-	else
-		call UltiSnips#ExpandSnippetOrJump()
-		if g:ulti_expand_or_jump_res == 0
-			return "\<tab>"
-		endif
-	endif
-	return ""
+  if pumvisible()
+    return "\<c-n>"
+  else
+    call UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res == 0
+      return "\<tab>"
+    endif
+  endif
+  return ""
 endfunction
 autocmd InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 function! g:UltiSnips_Expand()
-	if pumvisible()
-		call UltiSnips#ExpandSnippetOrJump()
-		if g:ulti_expand_or_jump_res == 0
-			return "\<c-y>\<cr>"
-		endif
-		return ""
-	else
-		return "\<cr>"
-	endif
+  if pumvisible()
+    call UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res == 0
+      return "\<c-y>\<cr>"
+    endif
+    return ""
+  else
+    return "\<cr>"
+  endif
 endfunction
 inoremap <silent> <CR> <C-R>=g:UltiSnips_Expand()<cr>
 
@@ -288,8 +299,8 @@ noremap <silent> <F12> <Esc>:cnext<CR>
 
 " Ack
 if executable('ag')
-	" let g:ackprg = 'ag --nogroup --nocolor --column'
-	let g:ackprg = 'ag --vimgrep'
+  " let g:ackprg = 'ag --nogroup --nocolor --column'
+  let g:ackprg = 'ag --vimgrep'
 endif
 let g:ack_autoclose = 0
 
@@ -297,27 +308,27 @@ let g:ack_autoclose = 0
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-i': 'split',
-  \ 'ctrl-s': 'vsplit' }
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-i': 'split',
+      \ 'ctrl-s': 'vsplit' }
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+      \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
 
 " vim-ctrlspace
 if executable("ag")
-    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+  let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
 endif
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
@@ -332,16 +343,16 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " git-NERD
 let g:NERDTreeIndicatorMapCustom = {
-			\ "Modified"  : "*",
-			\ "Staged"    : "+",
-			\ "Untracked" : "^",
-			\ "Renamed"   : "->",
-			\ "Unmerged"  : "═",
-			\ "Deleted"   : "x",
-			\ "Dirty"     : "✗",
-			\ "Clean"     : "✔︎",
-			\ "Unknown"   : "?"
-			\ }
+      \ "Modified"  : "*",
+      \ "Staged"    : "+",
+      \ "Untracked" : "^",
+      \ "Renamed"   : "->",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "x",
+      \ "Dirty"     : "✗",
+      \ "Clean"     : "✔︎",
+      \ "Unknown"   : "?"
+      \ }
 
 " easy-motion
 map <Leader> <Plug>(easymotion-prefix)
@@ -370,10 +381,10 @@ noremap <silent> <F7> :TagbarToggle<CR>
 " a.vim
 nnoremap <leader>a :A<CR>
 augroup unmap_space
-	autocmd!
-	autocmd vimEnter * iunmap <leader>ihn
-	autocmd vimEnter * iunmap <leader>ih
-	autocmd vimEnter * iunmap <leader>is
+  autocmd!
+  autocmd vimEnter * iunmap <leader>ihn
+  autocmd vimEnter * iunmap <leader>ih
+  autocmd vimEnter * iunmap <leader>is
 augroup END
 
 " vim-autoclose
@@ -392,26 +403,26 @@ let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
 let g:vimtex_quickfix_latexlog = {
-			\ 'overfull' : 0,
-			\ 'underfull' : 0,
-			\ 'font' : 0,
-			\}
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'font' : 0,
+      \}
 if !exists('g:ycm_semantic_triggers')
-	let g:ycm_semantic_triggers = {}
+  let g:ycm_semantic_triggers = {}
 endif
 let g:ycm_semantic_triggers.tex = [
-			\ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
-			\ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
-			\ 're!\\hyperref\[[^]]*',
-			\ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
-			\ 're!\\(include(only)?|input){[^}]*',
-			\ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
-			\ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
-			\ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
-			\ 're!\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
-			\ 're!\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
-			\ 're!\\[A-Za-z]*',
-			\ ]
+      \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+      \ 're!\\hyperref\[[^]]*',
+      \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\(include(only)?|input){[^}]*',
+      \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+      \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\usepackage(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\documentclass(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\[A-Za-z]*',
+      \ ]
 let g:vimtex_compiler_progname='nvr'
 
 " csapprox
@@ -430,8 +441,8 @@ set background=dark
 " undotree
 nnoremap <F8> :UndotreeToggle<cr>
 if has("persistent_undo")
-	set undodir=~/.undodir/
-	set undofile
+  set undodir=~/.undodir/
+  set undofile
 endif
 
 " vim-easy-align
@@ -448,22 +459,22 @@ autocmd fileType plaintex,tex let g:surround_{char2nr('c')} = "\\\1command\1{\r}
 
 " vim-easy-align
 let g:easy_align_delimiters = {
-\  't': { 'pattern': '\t',  'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 }
-\}
+      \  't': { 'pattern': '\t',  'left_margin': 1, 'right_margin': 1, 'stick_to_left': 0 }
+      \}
 
 " vim-textobj-user
 let g:textobj_numeral_pattern = '\%(\<[[:digit:]]\+\%(\.[[:digit:]]\+\)\=\%([Ee][[:digit:]]\+\)\=\>\|\<0[xXbBoOdD][[:xdigit:]]\+\>\)'
 let g:textobj_solution_pattern = g:textobj_numeral_pattern . '(' . g:textobj_numeral_pattern . ')'
 call textobj#user#plugin('number', {
-\   '-': {
-\     'pattern': g:textobj_numeral_pattern,
-\     'select': ['an', 'in'],
-\   },
-\   's': {
-\     'pattern': g:textobj_solution_pattern,
-\     'select': ['as', 'is'],
-\   }
-\ })
+      \   '-': {
+      \     'pattern': g:textobj_numeral_pattern,
+      \     'select': ['an', 'in'],
+      \   },
+      \   's': {
+      \     'pattern': g:textobj_solution_pattern,
+      \     'select': ['as', 'is'],
+      \   }
+      \ })
 
 "autocmd BufNewFile,BufRead *.c,*.cpp,*.h,*.cc :syn match comment "\v(^\s*//.*\n)+" fold
 
@@ -487,34 +498,34 @@ command! -complete=file -nargs=1 Gdb call plug#load('nvim-gdb') | GdbStart gdb -
 " vim-grammarous
 let g:grammarous#hooks = {}
 function! g:grammarous#hooks.on_check(errs) abort
-	nmap <buffer>gn <Plug>(grammarous-move-to-next-error)
-	nmap <buffer>gp <Plug>(grammarous-move-to-previous-error)
-	nmap <buffer>gf <Plug>(grammarous-fixit)
+  nmap <buffer>gn <Plug>(grammarous-move-to-next-error)
+  nmap <buffer>gp <Plug>(grammarous-move-to-previous-error)
+  nmap <buffer>gf <Plug>(grammarous-fixit)
 endfunction
 function! g:grammarous#hooks.on_reset(errs) abort
-	nunmap <buffer>gn
-	nunmap <buffer>gp
-	nunmap <buffer>gf
+  nunmap <buffer>gn
+  nunmap <buffer>gp
+  nunmap <buffer>gf
 endfunction
 
 " vim-lexical
 augroup lexical
-	autocmd!
-	autocmd FileType text call lexical#init()
-	autocmd FileType plaintex,tex call lexical#init()
+  autocmd!
+  autocmd FileType text call lexical#init()
+  autocmd FileType plaintex,tex call lexical#init()
 augroup END
 let g:lexical#spell_key = '<leader>s'
 
 " vim-diff-enhanced
 if &diff
-	let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+  let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 nnoremap <silent> <leader>g :!neato -Teps -o %:r.eps %<cr><cr>
 
 " auto-pairs
 augroup auto-pairs
-	autocmd!
-	autocmd FileType plaintex,tex let g:AutoPairs['$']='$'
+  autocmd!
+  autocmd FileType plaintex,tex let g:AutoPairs['$']='$'
 augroup END
 
 " python
@@ -526,13 +537,13 @@ autocmd FileType python vnoremap = :!yapf<CR>
 let g:startify_files_number=5
 let g:startify_files_number=5
 let g:startify_list_order = [
-			\ ["   MRU " . getcwd()],
-			\ 'dir',
-			\ ['   MRU'],
-			\ 'files',
-			\ ['   sessions:'],
-			\ 'sessions',
-			\ ]
+      \ ["   MRU " . getcwd()],
+      \ 'dir',
+      \ ['   MRU'],
+      \ 'files',
+      \ ['   sessions:'],
+      \ 'sessions',
+      \ ]
 
 " t9md/vim-choosewin
 " nmap  <c-w>  <Plug>(choosewin)
