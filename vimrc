@@ -83,10 +83,14 @@ Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'sbdchd/neoformat'
 " Plug 'justinmk/vim-dirvish'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'google/vim-searchindex'
+Plug 'kshenoy/vim-signature'
+Plug 'Yggdroot/indentLine', { 'for': ['cpp', 'c']}
 
 " Initialize plugin system
 call plug#end()
-
 set number
 " set relativenumber
 set lazyredraw
@@ -133,6 +137,8 @@ if (has('nvim'))
 endif
 xnoremap <silent> v <c-c>
 let mapleader = "\<space>"
+
+nnoremap <silent> <leader>. :cd %:p:h<CR>
 
 " Jump to the last edited line
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
@@ -520,7 +526,6 @@ let g:lexical#spell_key = '<leader>s'
 if &diff
   let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
-nnoremap <silent> <leader>g :!neato -Teps -o %:r.eps %<cr><cr>
 
 " auto-pairs
 augroup auto-pairs
@@ -564,3 +569,43 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
 
 " vim-gitgutter
 set updatetime=100
+
+" ----------------------------------------------------------------------------
+" goyo.vim + limelight.vim
+" ----------------------------------------------------------------------------
+let g:limelight_paragraph_span = 1
+let g:limelight_priority = -1
+
+function! s:goyo_enter()
+  if has('gui_running')
+    set fullscreen
+    set background=light
+    set linespace=7
+  elseif exists('$TMUX')
+    silent !tmux set status off
+  endif
+  Limelight
+  let &l:statusline = '%M'
+  hi StatusLine ctermfg=red guifg=red cterm=NONE gui=NONE
+endfunction
+
+function! s:goyo_leave()
+  if has('gui_running')
+    set nofullscreen
+    set background=dark
+    set linespace=0
+  elseif exists('$TMUX')
+    silent !tmux set status on
+  endif
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <Leader>G :Goyo<CR>
+
+" indentLine
+let g:indentLine_char = '┆'
+" let g:indentLine_setColors = 0
+let g:indentLine_color_gui = '#d65d0e'
