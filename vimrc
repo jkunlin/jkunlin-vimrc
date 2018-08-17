@@ -126,8 +126,9 @@ set hidden
 set clipboard=unnamed
 
 augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
+ autocmd!
+ " autocmd BufWritePre * undojoin | Neoformat
+ autocmd BufWritePre * try | undojoin | Neoformat | catch /^Vim\%((\a\+)\)\=:E790/ | finally | silent Neoformat | endtry
 augroup END
 
 inoremap <silent> jk <esc>
