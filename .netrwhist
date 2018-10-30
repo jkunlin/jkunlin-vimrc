@@ -1,11 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/home/jkunlin/new_default/.stfolder'
-let g:netrw_dirhist_2='/home/jkunlin/mcq/ios_result/wlmc/include_init_ran100_1000s'
-let g:netrw_dirhist_3='/home/jkunlin/mcq/ios_result/wlmc/include_init_ran100_1000s/bio'
-let g:netrw_dirhist_4='/home/jkunlin/mcq/ios_result/wlmc/include_init_ran100_1000s'
-let g:netrw_dirhist_5='/home/jkunlin/mcq/ios_result/wlmc/include_init_ran100_1000s/bio'
-let g:netrw_dirhist_6='/home/jkunlin/mcq/ios_result/wlmc/include_init_ran100_1000s'
-let g:netrw_dirhist_7='/home/jkunlin/tmp'
-let g:netrw_dirhist_8='/home/jkunlin/little_tools/stat/exact'
-let g:netrw_dirhist_9='/home/jkunlin/tmp'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/home/jkunlin/.vim/.git'

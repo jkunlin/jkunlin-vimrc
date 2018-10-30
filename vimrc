@@ -605,6 +605,7 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 nnoremap <Leader>G :Goyo<CR>
+nnoremap <Leader>mm :make<CR>
 
 " indentLine
 let g:indentLine_char = '┆'
