@@ -14,9 +14,10 @@ endfunction
 " Plug 'roxma/nvim-completion-manager' | Plug 'roxma/ncm-clang'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'zchee/deoplete-clang'
 " Plug 'Valloric/YouCompleteMe', { 'for': ['c', 'cpp', 'tex', 'python', 'sh'], 'do': function('BuildYCM') }
+" Plug 'zxqfl/tabnine-vim'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-Plug 'w0rp/ale', { 'for': ['sh']} "apt-get install shellcheck
+Plug 'w0rp/ale', { 'for': ['sh', 'tex', 'latex', 'text']} "apt-get install shellcheck, vale or writegood or proselint
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
@@ -611,3 +612,9 @@ nnoremap <Leader>mm :make<CR>
 let g:indentLine_char = '┆'
 " let g:indentLine_setColors = 0
 let g:indentLine_color_gui = '#d65d0e'
+
+" ale
+" For all languages unspecified in the dictionary, all possible linters will be run for those languages, just as when the dictionary is not defined.
+let g:ale_linters = {
+\   'text': ['vale'],
+\}
