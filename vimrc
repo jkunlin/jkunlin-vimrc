@@ -6,6 +6,11 @@ function! BuildYCM(info)
     !./install.py --clang-completer
   endif
 endfunction
+function! BuildMD(info)
+  if a:info.status == 'installed' || a:info.force
+    !sudo npm -g install instant-markdown-d
+  endif
+endfunction
 " Make sure you use single quotes
 function! Cond(cond, ...)
   let opts = get(a:000, 0, {})
@@ -89,6 +94,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'google/vim-searchindex'
 Plug 'kshenoy/vim-signature'
 Plug 'Yggdroot/indentLine', { 'for': ['cpp', 'c']}
+Plug 'tpope/vim-markdown' | Plug 'suan/vim-instant-markdown', { 'do': function('BuildMD') }
 
 " Initialize plugin system
 call plug#end()
