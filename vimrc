@@ -11,6 +11,11 @@ function! BuildMD(info)
     !sudo npm -g install instant-markdown-d
   endif
 endfunction
+function! BuildVimtex(info)
+  if a:info.status == 'installed' || a:info.force
+    !pip3 install neovim-remote
+  endif
+endfunction
 " Make sure you use single quotes
 function! Cond(cond, ...)
   let opts = get(a:000, 0, {})
@@ -622,5 +627,7 @@ let g:indentLine_color_gui = '#d65d0e'
 " ale
 " For all languages unspecified in the dictionary, all possible linters will be run for those languages, just as when the dictionary is not defined.
 let g:ale_linters = {
+\   'tex' : ['chktex', 'vale'],
+\   'latex' : ['chktex', 'vale'],
 \   'text': ['vale'],
 \}
