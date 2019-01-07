@@ -16,6 +16,11 @@ function! BuildVimtex(info)
     !pip3 install neovim-remote
   endif
 endfunction
+function! BuildNvimGDB(info)
+  if a:info.status == 'installed' || a:info.force
+    !./install.sh
+  endif
+endfunction
 " Make sure you use single quotes
 function! Cond(cond, ...)
   let opts = get(a:000, 0, {})
@@ -28,7 +33,7 @@ endfunction
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'w0rp/ale', { 'for': ['sh', 'tex', 'latex', 'text']} "apt-get install shellcheck, vale or writegood or proselint
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' } "| Plug 'jistr/vim-nerdtree-tabs', { 'on': 'NERDTreeToggle' }
 Plug 'tomtom/tcomment_vim'
 Plug 'majutsushi/tagbar' "need exuberant ctag installed
 Plug 'bling/vim-airline'
@@ -70,7 +75,7 @@ Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --serverna
 " Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
-Plug 'sakhnik/nvim-gdb', { 'on': [] }
+Plug 'sakhnik/nvim-gdb', { 'do': function('BuildNvimGDB'), 'on': [] }
 " Plug 'myusuf3/numbers.vim'
 " Plug 'simeji/winresizer'
 Plug 'mhinz/vim-startify'
@@ -270,6 +275,7 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_seed_identifiers_with_syntax = 1
 nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap gf :YcmCompleter FixIt<CR>
 
 " ultisnip
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "mysnippets"]
@@ -512,7 +518,8 @@ call textobj#user#plugin('number', {
 " command! -complete=file -nargs=1 Neogdb call plug#load('neogdb.vim') | GdbLocal confloc#me <args>
 
 " nvim-gdb
-command! -complete=file -nargs=1 Gdb call plug#load('nvim-gdb') | GdbStart gdb -q -f <args>
+command! -complete=file -nargs=1 Gdb call plug#load('nvim-gdb') | GdbStart gdb -q <args>
+let g:nvimgdb_disable_start_keymaps = 1
 
 " vim-grammarous
 let g:grammarous#hooks = {}
