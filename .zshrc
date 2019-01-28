@@ -90,14 +90,9 @@ source /var/lib/gems/2.3.0/gems/tmuxinator-0.10.0/completion/tmuxinator.zsh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # alias vim='vim --servername gdb'
 alias nv="nvim"
-# alias nv="NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim"
-# export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-alias pymux="pymux --truecolor"
 alias ll='ls -alF'
 alias l='ls'
 # alias jabref='java -jar ~/jabref/JabRef-3.8.1.jar'
-alias em='emacsclient -t -a ""'
-alias lldb='lldb-3.8'
 
 unalias z
 z() {
