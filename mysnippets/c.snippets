@@ -348,7 +348,50 @@ endsnippet
 
 snippet basename "basename"
 string basename(string name) {
-  size_t begin = name.find_last_of('/');
-  return name.substr(begin + 1, name.size() - begin);
+	size_t begin = name.find_last_of('/');
+	return name.substr(begin + 1, name.size() - begin);
 }
-endsnippet	
+endsnippet
+
+snippet dir "director"
+class Director_entry {/*{{{*/
+public:
+	Director_entry (string director_name) {
+		string cmd = "ls " + director_name + " > " + director_name + "_tmpfile.txt";
+		system(cmd.c_str());
+		fstream file(director_name + "_tmpfile.txt");
+		if (!file.is_open()) {
+			cout << "can't open dir" << endl;
+			exit(0);
+		}
+		string line;
+		while (getline(file, line)) {
+			file_name.push_back(line);
+		}
+		file.close();
+		cmd = "rm " + director_name + "_tmpfile.txt";
+		system(cmd.c_str());
+	};
+
+	vector<string>::const_iterator begin() {
+		return file_name.begin();
+	}
+
+	vector<string>::const_iterator end() {
+		return file_name.end();
+	}
+
+	vector<string>::size_type size() {
+		return file_name.size();
+	}
+
+	using size_type = vector<string>::size_type;
+
+	string& operator [] (size_type i) {
+		return file_name[i];
+	}
+
+private:
+	vector<string> file_name;
+};/*}}}*/
+endsnippet

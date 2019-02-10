@@ -71,7 +71,8 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Plug 'Konfekt/FastFold' "make fold fast
 " Plug 'gi1242/vim-tex-syntax' "make tex fast
-Plug 'lervag/vimtex' "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
+Plug 'lervag/vimtex', { 'do': function('BuildVimtex') } "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 " Plug 'vim-scripts/Conque-GDB', { 'on': 'GDB' }
 " Plug 'critiqjo/lldb.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'huawenyu/neogdb.vim', { 'on': 'GDB'}
@@ -422,16 +423,21 @@ let g:autoclose_vim_commentmode = 1
 " let g:ConqueGdb_Leader = "<leader>g"
 " command! -complete=file -nargs=1 ConqueGdb call plug#load('Conque-GDB') | ConqueGdb <args>
 
+" tex-conceal
+set conceallevel=2
+let g:tex_conceal="abdgm"
 
 " vimtex
+let g:tex_flavor = 'latex'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_quickfix_latexlog = {
-      \ 'overfull' : 0,
-      \ 'underfull' : 0,
-      \ 'font' : 0,
-      \}
+let g:vimtex_quickfix_latexlog = {'default' : 0}
+" let g:vimtex_quickfix_latexlog = {
+"       \ 'overfull' : 0,
+"       \ 'underfull' : 0,
+"       \ 'font' : 0,
+"       \}
 if !exists('g:ycm_semantic_triggers')
   let g:ycm_semantic_triggers = {}
 endif
