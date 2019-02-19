@@ -47,7 +47,8 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'mileszs/ack.vim' "need ack (now is ag instead) installed
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
 Plug 'vim-scripts/a.vim'
-Plug 'vim-scripts/matchit.zip'
+" Plug 'vim-scripts/matchit.zip'
+Plug 'andymass/vim-matchup'
 Plug 'vim-ctrlspace/vim-ctrlspace'
 
 Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
@@ -69,7 +70,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Plug 'Konfekt/FastFold' "make fold fast
+Plug 'Konfekt/FastFold' "make fold fast
 " Plug 'gi1242/vim-tex-syntax' "make tex fast
 Plug 'lervag/vimtex', { 'do': function('BuildVimtex') } "required vim with +clientserver; alias vim='vim --servername vim', set okular with 'vim --remote-silent +%l \"%f\"'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
@@ -106,9 +107,16 @@ Plug 'google/vim-searchindex'
 Plug 'kshenoy/vim-signature'
 Plug 'Yggdroot/indentLine', { 'for': ['cpp', 'c']}
 Plug 'tpope/vim-markdown' | Plug 'suan/vim-instant-markdown', { 'do': function('BuildMD') }
+Plug 'machakann/vim-highlightedyank'
+Plug 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
 call plug#end()
+
+augroup vimrc
+  autocmd!
+augroup END
+set encoding=UTF-8
 set number
 " set relativenumber
 set lazyredraw
@@ -275,8 +283,10 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_seed_identifiers_with_syntax = 1
-nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap gf :YcmCompleter FixIt<CR>
+autocmd vimrc FileType c,cpp    nnoremap <buffer> gd :YcmCompleter GoTo<CR>
+autocmd vimrc FileType c,cpp    nnoremap <buffer> gf :YcmCompleter FixIt<CR>
+autocmd vimrc FileType c,cpp    nnoremap <buffer> K  :YcmCompleter GetType<CR>
+
 
 " ultisnip
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets", "UltiSnips", "mysnippets"]
@@ -324,9 +334,9 @@ noremap <silent> <F10> <Esc>:cprevious<CR>
 noremap <silent> <F12> <Esc>:cnext<CR>
 
 " Ack
-if executable('ag')
+if executable('rg')
   " let g:ackprg = 'ag --nogroup --nocolor --column'
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'rg --vimgrep'
 endif
 let g:ack_autoclose = 0
 
@@ -367,19 +377,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 "nmap <c-t> :browse tabnew<CR>M
 "imap <c-t> <Esc>:browse tabnew<CR>M
 
-" git-NERD
-let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "*",
-      \ "Staged"    : "+",
-      \ "Untracked" : "^",
-      \ "Renamed"   : "->",
-      \ "Unmerged"  : "═",
-      \ "Deleted"   : "x",
-      \ "Dirty"     : "✗",
-      \ "Clean"     : "✔︎",
-      \ "Unknown"   : "?"
-      \ }
-
 " easy-motion
 map <Leader> <Plug>(easymotion-prefix)
 map <silent> <Leader>ml <Plug>(easymotion-lineforward)
@@ -403,6 +400,7 @@ set laststatus=2 "show status line even when only single window is opened
 
 " tagbar
 noremap <silent> <F7> :TagbarToggle<CR>
+let g:tagbar_sort = 0
 
 " a.vim
 nnoremap <leader>a :A<CR>
@@ -644,3 +642,6 @@ let g:ale_linters = {
 \   'latex' : ['chktex', 'vale'],
 \   'text': ['vale'],
 \}
+
+" vim-airline
+let g:airline_powerline_fonts = 1

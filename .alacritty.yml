@@ -24,8 +24,8 @@ dimensions:
 # Units are physical pixels; this is not DPI aware.
 # (change requires restart)
 padding:
-  x: 1
-  y: 0
+  x: 4
+  y: 2
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 8
@@ -55,19 +55,19 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: fantasquesansmono # should be "Menlo" or something on macOS.
+    family: FantasqueSansMono Nerd Font Mono # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     style: Regular
 
   # The bold font face
   bold:
-    family: fantasquesansmono # should be "Menlo" or something on macOS.
+    family: FantasqueSansMono Nerd Font Mono  # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    family: fantasquesansmono # should be "Menlo" or something on macOS.
+    family: FantasqueSansMono Nerd Font Mono  # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     style: Italic
 
@@ -77,8 +77,8 @@ font:
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: -8.5
-    y: 0.0
+    x: -2.0
+    y: 1.0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to
