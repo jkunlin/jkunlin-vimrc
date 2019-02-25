@@ -49,7 +49,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegu
 Plug 'vim-scripts/a.vim'
 " Plug 'vim-scripts/matchit.zip'
 Plug 'andymass/vim-matchup'
-Plug 'vim-ctrlspace/vim-ctrlspace'
+" Plug 'vim-ctrlspace/vim-ctrlspace'
 
 Plug 'mbbill/undotree', { 'do': 'mkdir ~/.undodir'}
 " Plug 'spf13/vim-autoclose'
@@ -109,6 +109,8 @@ Plug 'Yggdroot/indentLine', { 'for': ['cpp', 'c']}
 Plug 'tpope/vim-markdown' | Plug 'suan/vim-instant-markdown', { 'do': function('BuildMD') }
 Plug 'machakann/vim-highlightedyank'
 Plug 'ryanoasis/vim-devicons'
+Plug 'sk1418/HowMuch'
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 " Initialize plugin system
 call plug#end()
@@ -543,6 +545,7 @@ augroup lexical
   autocmd!
   autocmd FileType text call lexical#init()
   autocmd FileType plaintex,tex call lexical#init()
+  autocmd FileType markdown call lexical#init()
 augroup END
 let g:lexical#spell_key = '<leader>s'
 
@@ -645,3 +648,15 @@ let g:ale_linters = {
 
 " vim-airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type= 2
+
+" HowMuch
+"The scale of the result:
+let g:HowMuch_scale = 2 
+"the engine order for auto-calculation
+let g:HowMuch_auto_engines = ['bc', 'vim', 'py']
+
+" WhichKey
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+set timeoutlen=500
