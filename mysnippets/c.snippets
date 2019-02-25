@@ -357,6 +357,9 @@ snippet dir "director"
 class Director_entry {/*{{{*/
 public:
 	Director_entry (string director_name) {
+		if (*director_name.rbegin() == '/') {
+			director_name.pop_back();
+		}
 		string cmd = "ls " + director_name + " > " + director_name + "_tmpfile.txt";
 		system(cmd.c_str());
 		fstream file(director_name + "_tmpfile.txt");
